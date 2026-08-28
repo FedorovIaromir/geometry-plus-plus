@@ -1,5 +1,5 @@
-#ifndef GEOMETRY++_H_INCLUDED
-#define GEOMETRY++_H_INCLUDED
+#ifndef GEOMETRYPLUSPLUS_H_INCLUDED
+#define GEOMETRYPLUSPLUS_H_INCLUDED
 
 #include <iostream>
 #include <cmath>
@@ -45,186 +45,9 @@ struct Triangle {
     Point A, B, C;
 };
 
-//====================================
-//               œŒÃŒŸ‹
-//====================================
-
-void HELP() {
-    cout << "\n"
-         << "============================================================\n"
-         << "          ULTIMATE GEOMETRY CALCULATOR (UGC) HELP\n"
-         << "============================================================\n"
-         << "\n"
-         << "This library supports 2D geometry: Points, Vectors, Lines,\n"
-         << "Segments, BBoxes, Circles, and Triangles.\n"
-         << "All operators are overloaded for intuitive use.\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  CONSTANTS & TYPES\n"
-         << "------------------------------------------------------------\n"
-         << "  PI, INF, EPS                Built-in constants\n"
-         << "  UNDEF, NAP                  Undefined / No Access Point\n"
-         << "  ZERP, INFP                  Zero / Infinite Intersection\n"
-         << "  Point, Vector, Line, Segment, BBox, Circle, Triangle\n"
-         << "  IntersectOut { P1, P2, num }   Intersection result\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  MATH HELPERS\n"
-         << "------------------------------------------------------------\n"
-         << "  iZ(a)          Check if a == 0 (with EPS)\n"
-         << "  iE(a,b)        Check if a == b (with EPS)\n"
-         << "  SQ(a)          Square of a\n"
-         << "  r2d(r), d2r(d) Radians <-> Degrees conversion\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  VECTORS & OPERATORS\n"
-         << "------------------------------------------------------------\n"
-         << "  normalize(v)        Unit vector\n"
-         << "  RCC(v,a), RC(v,a)   Rotate v Counter-Clockwise / Clockwise\n"
-         << "  normal(v)           Left normal (-y, x)\n"
-         << "  ang(v)              Angle of v (atan2)\n"
-         << "  isCol(a,b)          Collinear?\n"
-         << "  isOrth(a,b)         Orthogonal?\n"
-         << "  isCodir(a,b)        Same direction?\n"
-         << "  isOpp(a,b)          Opposite direction?\n"
-         << "  v + v, v - v, v * k, v / k  Arithmetic\n"
-         << "  v * v               Dot product\n"
-         << "  v && v              Cross product (scalar)\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  POINTS\n"
-         << "------------------------------------------------------------\n"
-         << "  midpoint(A,B)           Middle of A and B\n"
-         << "  midpoint(seg)           Middle of segment\n"
-         << "  isCol(A,B,C)            Three points collinear?\n"
-         << "  RCC(A,O,a), RC(A,O,a)   Rotate A around O\n"
-         << "  reflect(A,line)         Reflect A over line\n"
-         << "  A + v, A - v            Move point by vector\n"
-         << "  A - B                   Vector from B to A\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  LINES (Ax + By + C = 0)\n"
-         << "------------------------------------------------------------\n"
-         << "  project(A,line)         Project point onto line\n"
-         << "  normalize(line)         Normalize (A,B,C)\n"
-         << "  direction(line)         Direction vector (-B, A)\n"
-         << "  normal(line)            Normal vector (A, B)\n"
-         << "  pointOn(line)           Any point on line\n"
-         << "  isParallel(a,b)         Lines parallel?\n"
-         << "  isPerpendicular(a,b)    Lines perpendicular?\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  SEGMENTS\n"
-         << "------------------------------------------------------------\n"
-         << "  project(A,seg)          Project point onto segment\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  BBOXES (Axis-Aligned)\n"
-         << "------------------------------------------------------------\n"
-         << "  isBTB(a,b)    Boxes touch by corner?\n"
-         << "  BTB(a,b)      Touch point (if any)\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  CIRCLES\n"
-         << "------------------------------------------------------------\n"
-         << "  area(o), perimeter(o)    Area and circumference\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  TRIANGLES\n"
-         << "------------------------------------------------------------\n"
-         << "  area, area2, areaALG, area2ALG   Various area forms\n"
-         << "  orient(t)               Signed double-area\n"
-         << "  isDeg(t)                Degenerate? (collinear)\n"
-         << "  isAcute/Right/Obtuse(t) Angle type\n"
-         << "  angleA/B/C(t)           Angles in radians\n"
-         << "  lenAB, lenBC, lenAC(t)  Side lengths\n"
-         << "  perimeter(t)            Sum of sides\n"
-         << "\n"
-         << "  -- Segments inside triangle --\n"
-         << "  heightA/B/C(t)          Altitude segments\n"
-         << "  medianA/B/C(t)          Median segments\n"
-         << "  bisectorA/B/C(t)        Angle bisector segments\n"
-         << "  midsegmentAB/BC/CA(t)   Mid-segments\n"
-         << "\n"
-         << "  -- Special points --\n"
-         << "  centroid(t)             Center of mass (medians)\n"
-         << "  incenter(t)             Center of incircle\n"
-         << "  orthocenter(t)          Intersection of altitudes\n"
-         << "  circumcenter(t)         Center of circumcircle\n"
-         << "\n"
-         << "  -- Circles --\n"
-         << "  circumscribed(t)        Circumcircle\n"
-         << "  inscribed(t)            Incircle\n"
-         << "\n"
-         << "  -- Lengths of special segments --\n"
-         << "  lenHeiA/B/C, lenMedA/B/C, lenBisA/B/C\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  OPERATORS\n"
-         << "------------------------------------------------------------\n"
-         << "  ==, !=               Compare all types\n"
-         << "\n"
-         << "  -- Angles --\n"
-         << "  v ^ v, v ^ line, line ^ line, line ^ seg, seg ^ seg, etc.\n"
-         << "  angleAOB(A,O,B)      Angle AOB (vertex O)\n"
-         << "\n"
-         << "  -- Distances --\n"
-         << "  A > B                Geometric distance\n"
-         << "  A >> B               Algebraic distance (signed)\n"
-         << "  A < B                Negative squared distance\n"
-         << "  Works for: Point-Point, Point-Line, Point-Segment, Point-Circle\n"
-         << "\n"
-         << "  -- Membership --\n"
-         << "  P | line             Point on line?\n"
-         << "  P | seg              Point on segment?\n"
-         << "  P | circle           Point on circle?\n"
-         << "  P | bbox             Point inside bbox?\n"
-         << "\n"
-         << "  -- Intersection check --\n"
-         << "  a || b               Do they intersect? (bool)\n"
-         << "  Works for: BBox-BBox, Line-Line, Line-Segment,\n"
-         << "            Segment-Segment, Circle-Circle,\n"
-         << "            Line-Circle, Segment-Circle\n"
-         << "\n"
-         << "  -- Intersection point(s) --\n"
-         << "  a & b                Returns IntersectOut {P1, P2, num}\n"
-         << "  num:  -1 = infinite, 0 = none, 1 = one, 2 = two\n"
-         << "  Works for: Line-Line, Line-Segment, Segment-Segment,\n"
-         << "            Circle-Circle, Line-Circle, Segment-Circle\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  CONVERTERS\n"
-         << "------------------------------------------------------------\n"
-         << "  P2V(A,B)           Vector from A to B\n"
-         << "  P2V(A)             Vector from origin to A\n"
-         << "  V2P(v)             Point from vector\n"
-         << "  P2L(A,B)           Line through A and B\n"
-         << "  P2S(A,B)           Segment from A to B\n"
-         << "  V2S(v)             Segment from origin to v\n"
-         << "  S2V(seg)           Vector from A to B\n"
-         << "  S2L(seg)           Line containing segment\n"
-         << "  V2L(v)             Line through origin with direction v\n"
-         << "  A2V(alpha)         Unit vector at angle alpha\n"
-         << "  P2C(A,B,C)         Circumcircle through 3 points\n"
-         << "\n"
-         << "  -- BBox converters --\n"
-         << "  P2B(A), P2B(A,B), V2B(v), L2B(line), S2B(seg), C2B(circle)\n"
-         << "\n"
-         << "------------------------------------------------------------\n"
-         << "  INPUT / OUTPUT\n"
-         << "------------------------------------------------------------\n"
-         << "  cin >> point, vector, line, segment, bbox, circle, triangle\n"
-         << "  cout << any type   Pretty-printed\n"
-         << "\n"
-         << "============================================================\n"
-         << "  Example:\n"
-         << "    Triangle t = {{0,0},{4,0},{1,3}};\n"
-         << "    cout << area(t) << '\\n';\n"
-         << "    IntersectOut res = circle1 & circle2;\n"
-         << "    if (res.num == 2) cout << res.P1 << res.P2;\n"
-         << "============================================================\n"
-         << endl;
-}
+struct BaryCoords {
+    double u, v, w;
+};
 
 //====================================
 //               ŒÕ—“¿Õ“€
@@ -248,8 +71,8 @@ const IntersectOut INFP = {UNDEF, UNDEF, -1};
 bool iZ(double a);
 bool iE(double a, double b);
 double SQ(double a);
-double r2d(double r);
-double d2r(double d);
+double r2d(double radians);
+double d2r(double degrees);
 
 // ----- ƒÀ»Õ€ -----
 double lenS(Vector a);
@@ -279,9 +102,10 @@ bool isCol(Point A, Point B, Point C);
 Point RCC(Point A, Point O, double alpha);
 Point RC(Point A, Point O, double alpha);
 Point reflect(Point A, Line a);
+double angleAOB(Point A, Point O, Point B);
 
 // ----- œ–ﬂÃ€≈ -----
-Point project(Point A, Line a);
+Point project(Point A, Line l);
 Line normalize(Line a);
 Vector direction(Line l);
 Vector normal(Line l);
@@ -297,15 +121,16 @@ bool isBTB(BBox a, BBox b);
 Point BTB(BBox a, BBox b);
 
 // ----- “–≈”√ŒÀ‹Õ» » (·‡ÁÓ‚˚Â) -----
-double area2ALG(Triangle a);
-double areaALG(Triangle a);
-double area2(Triangle a);
-double area(Triangle a);
-bool isDeg(Triangle a);
-double orient(Triangle a);
+double area2ALG(Triangle t);
+double areaALG(Triangle t);
+double area2(Triangle t);
+double area(Triangle t);
+double perimeter(Triangle t);
+bool isDeg(Triangle t);
+double orient(Triangle t);
+Triangle makeCCW(Triangle t);
 
 // ----- “–≈”√ŒÀ‹Õ» » (Û„Î˚) -----
-double angleAOB(Point A, Point O, Point B);
 double angleA(Triangle t);
 double angleB(Triangle t);
 double angleC(Triangle t);
@@ -314,14 +139,19 @@ double angleC(Triangle t);
 bool isAcute(Triangle t);
 bool isRight(Triangle t);
 bool isObtuse(Triangle t);
+bool isEquil(Triangle t);
+bool isIsosc(Triangle t);
+bool isScal(Triangle t);
+bool isSim(Triangle a, Triangle b);
+bool isCongr(Triangle a, Triangle b);
 
 // ----- “–≈”√ŒÀ‹Õ» » (ÓÚÂÁÍË) -----
-Segment heightA(Triangle a);
-Segment heightB(Triangle a);
-Segment heightC(Triangle a);
-Segment medianA(Triangle a);
-Segment medianB(Triangle a);
-Segment medianC(Triangle a);
+Segment heightA(Triangle t);
+Segment heightB(Triangle t);
+Segment heightC(Triangle t);
+Segment medianA(Triangle t);
+Segment medianB(Triangle t);
+Segment medianC(Triangle t);
 Segment bisectorA(Triangle t);
 Segment bisectorB(Triangle t);
 Segment bisectorC(Triangle t);
@@ -330,25 +160,27 @@ Segment midsegmentBC(Triangle t);
 Segment midsegmentCA(Triangle t);
 
 // ----- “–≈”√ŒÀ‹Õ» » (ÚÓ˜ÍË) -----
-Point centroid(Triangle a);
-Point incenter(Triangle a);
-Point orthocenter(Triangle a);
+Point centroid(Triangle t);
+Point incenter(Triangle t);
+Point orthocenter(Triangle t);
 Point circumcenter(Triangle t);
 
 // ----- “–≈”√ŒÀ‹Õ» » (ÓÍÛÊÌÓÒÚË) -----
 Circle circumscribed(Triangle t);
 Circle inscribed(Triangle t);
+double inradius(Triangle t);
+double circumradius(Triangle t);
 
 // ----- “–≈”√ŒÀ‹Õ» » (‰ÎËÌ˚ ÓÚÂÁÍÓ‚) -----
-double lenHeiA(Triangle a);
-double lenHeiB(Triangle a);
-double lenHeiC(Triangle a);
-double lenMedA(Triangle a);
-double lenMedB(Triangle a);
-double lenMedC(Triangle a);
-double lenBisA(Triangle a);
-double lenBisB(Triangle a);
-double lenBisC(Triangle a);
+double lenHeiA(Triangle t);
+double lenHeiB(Triangle t);
+double lenHeiC(Triangle t);
+double lenMedA(Triangle t);
+double lenMedB(Triangle t);
+double lenMedC(Triangle t);
+double lenBisA(Triangle t);
+double lenBisB(Triangle t);
+double lenBisC(Triangle t);
 double lenAB(Triangle t);
 double lenBC(Triangle t);
 double lenAC(Triangle t);
@@ -373,14 +205,15 @@ bool operator==(Circle a, Circle b);
 bool operator!=(Circle a, Circle b);
 bool operator==(Triangle a, Triangle b);
 bool operator!=(Triangle a, Triangle b);
+bool operator==(BaryCoords a, BaryCoords b);
+bool operator!=(BaryCoords a, BaryCoords b);
 
 // ----- Œœ≈–¿“Œ–€ ¿–»‘Ã≈“» » (‚ÂÍÚÓ˚) -----
 Vector operator+(Vector a, Vector b);
 Vector operator-(Vector a, Vector b);
 Vector operator*(Vector a, double k);
-Vector operator*(double k, const Vector& a);
+Vector operator*(double k, Vector a);
 Vector operator/(Vector a, double k);
-Vector operator/(double k, Vector a);
 double operator*(Vector a, Vector b);
 double operator&&(Vector a, Vector b);
 
@@ -431,13 +264,9 @@ double operator<(Circle o, Point A);
 
 // ----- Œœ≈–¿“Œ–€ œ–»Õ¿ƒÀ≈∆ÕŒ—“» -----
 bool operator|(Point A, Line a);
-bool operator|(Line a, Point A);
 bool operator|(Point A, Segment a);
-bool operator|(Segment a, Point A);
 bool operator|(Point A, Circle o);
-bool operator|(Circle o, Point A);
 bool operator|(Point A, BBox a);
-bool operator|(BBox a, Point A);
 
 // ----- Œœ≈–¿“Œ–€ œ≈–≈—≈◊≈Õ»… (ÔÓ‚ÂÍ‡) -----
 bool operator||(BBox a, BBox b);
@@ -474,6 +303,9 @@ Line S2L(Segment a);
 Line V2L(Vector a);
 Vector A2V(double alpha);
 Circle P2C(Point A, Point B, Point C);
+Triangle P2T(Point A, Point B, Point C);
+BaryCoords PaT2Bar(Point P, Triangle t);
+Point TaBar2P(Triangle t, BaryCoords b);
 
 // ----- ¡¡Œ —€ (ÍÓÌ‚ÂÚÓ˚) -----
 BBox P2B(Point A);
@@ -499,12 +331,12 @@ double SQ(double a) {
     return a * a;
 }
 
-double r2d(double r) {
-    return (r * 180) / PI;
+double r2d(double radians) {
+    return (radians * 180) / PI;
 }
 
-double d2r(double d) {
-    return (d * PI) / 180;
+double d2r(double degrees) {
+    return (degrees * PI) / 180;
 }
 
 //====================================
@@ -543,6 +375,15 @@ istream &operator>>(istream &in, Circle &o) {
 
 istream &operator>>(istream &in, Triangle &a) {
     in >> a.A >> a.B >> a.C;
+    return in;
+}
+
+istream &operator>>(istream &in, BaryCoords &b) {
+    in >> b.u >> b.v >> b.w;
+    if (!iE(b.u + b.v + b.w, 1.0)) {
+        cout << "Error: barycoords sum != 1\n";
+        exit(0);
+    }
     return in;
 }
 
@@ -586,6 +427,16 @@ ostream &operator<<(ostream &out, Triangle a) {
     return out;
 }
 
+ostream &operator<<(ostream &out, BaryCoords b) {
+    out << "P = " << b.u << " * A + " << b.v << " * B + " << b.w << " * C";
+    return out;
+}
+
+ostream &operator<<(ostream &out, IntersectOut i) {
+    out << '[' << i.P1 << ", " << i.P2 << ", " << i.num << ']';
+    return out;
+}
+
 //====================================
 //              ¬≈ “Œ–€
 //====================================
@@ -619,7 +470,7 @@ Vector operator*(Vector a, double k) {
     return {a.x * k, a.y * k};
 }
 
-Vector operator*(double k, const Vector &a) {
+Vector operator*(double k, Vector a) {
     return a * k;
 }
 
@@ -706,12 +557,12 @@ Point reflect(Point A, Line a) {
 //              œ–ﬂÃ€≈
 //====================================
 
-Point project(Point A, Line a) {
-    if (A | a) {
+Point project(Point A, Line l) {
+    if (A | l) {
         return A;
     }
-    double t = (a.A * A.x + a.B * A.y + a.C) / (SQ(a.A) + SQ(a.B));
-    return {A.x - a.A * t, A.y - a.B * t};
+    double t = (l.A * A.x + l.B * A.y + l.C) / (SQ(l.A) + SQ(l.B));
+    return {A.x - l.A * t, A.y - l.B * t};
 }
 
 Line normalize(Line a) {
@@ -796,12 +647,12 @@ Point BTB(BBox a, BBox b) {
 //            “–≈”√ŒÀ‹Õ» »
 //====================================
 
-bool isDeg(Triangle a) {
-    return a.C | P2L(a.A, a.B);
+bool isDeg(Triangle t) {
+    return t.C | P2L(t.A, t.B);
 }
 
-double orient(Triangle a) {
-    return area2ALG(a);
+double orient(Triangle t) {
+    return area2ALG(t);
 }
 
 bool isAcute(Triangle t) {
@@ -824,42 +675,93 @@ Circle inscribed(Triangle t) {
     return {incenter(t), incenter(t) > P2L(t.A, t.B)};
 }
 
+bool isEquil(Triangle t) {
+    return lenAB(t) == lenBC(t) && lenBC(t) == lenAC(t);
+}
+
+bool isIsosc(Triangle t) {
+    if (isEquil(t)) {
+        return false;
+    }
+    return lenAB(t) == lenBC(t) || lenBC(t) == lenAC(t) || lenAB(t) == lenAC(t);
+}
+
+bool isScal(Triangle t) {
+    return !isEquil(t) && !isIsosc(t);
+}
+
+Triangle makeCCW(Triangle t) {
+    if (orient(t) < 0) {
+        swap(t.B, t.C);
+    }
+    return t;
+}
+
+double inradius(Triangle t) {
+    return inscribed(t).R;
+}
+
+double circumradius(Triangle t) {
+    return circumscribed(t).R;
+}
+
+bool isSim(Triangle a, Triangle b) {
+    double a1 = lenBC(a), b1 = lenAC(a), c1 = lenAB(a);
+    double a2 = lenBC(b), b2 = lenAC(b), c2 = lenAB(b);
+    double s1[3] = {a1, b1, c1};
+    double s2[3] = {a2, b2, c2};
+    sort(s1, s1 + 3);
+    sort(s2, s2 + 3);
+    double k = s1[0] / s2[0];
+    return iE(s1[1] / s2[1], k) && iE(s1[2] / s2[2], k);
+}
+
+bool isCongr(Triangle a, Triangle b) {
+    double a1 = lenBC(a), b1 = lenAC(a), c1 = lenAB(a);
+    double a2 = lenBC(b), b2 = lenAC(b), c2 = lenAB(b);
+    double s1[3] = {a1, b1, c1};
+    double s2[3] = {a2, b2, c2};
+    sort(s1, s1 + 3);
+    sort(s2, s2 + 3);
+    return iE(s1[0], s2[0]) && iE(s1[1], s2[1]) && iE(s1[2], s2[2]);
+}
+
 //====================================
 //        Œ“–≈« » ¬ “–≈”√ŒÀ‹Õ» ≈
 //====================================
 
 // ¬˚ÒÓÚ˚
 
-Segment heightA(Triangle a) {
-    Point f = project(a.A, P2L(a.B, a.C));
-    return {a.A, f};
+Segment heightA(Triangle t) {
+    Point f = project(t.A, P2L(t.B, t.C));
+    return {t.A, f};
 }
 
-Segment heightB(Triangle a) {
-    Point f = project(a.B, P2L(a.A, a.C));
-    return {a.B, f};
+Segment heightB(Triangle t) {
+    Point f = project(t.B, P2L(t.A, t.C));
+    return {t.B, f};
 }
 
-Segment heightC(Triangle a) {
-    Point f = project(a.C, P2L(a.A, a.B));
-    return {a.C, f};
+Segment heightC(Triangle t) {
+    Point f = project(t.C, P2L(t.A, t.B));
+    return {t.C, f};
 }
 
 // ÃÂ‰Ë‡Ì˚
 
-Segment medianA(Triangle a) {
-    Point mid = midpoint(a.B, a.C);
-    return {a.A, mid};
+Segment medianA(Triangle t) {
+    Point mid = midpoint(t.B, t.C);
+    return {t.A, mid};
 }
 
-Segment medianB(Triangle a) {
-    Point mid = midpoint(a.A, a.C);
-    return {a.B, mid};
+Segment medianB(Triangle t) {
+    Point mid = midpoint(t.A, t.C);
+    return {t.B, mid};
 }
 
-Segment medianC(Triangle a) {
-    Point mid = midpoint(a.A, a.B);
-    return {a.C, mid};
+Segment medianC(Triangle t) {
+    Point mid = midpoint(t.A, t.B);
+    return {t.C, mid};
 }
 
 // ¡ËÒÒÂÍÚËÒ˚
@@ -920,16 +822,16 @@ Segment midsegmentCA(Triangle t) {
 //        “Œ◊ » ¬ “–≈”√ŒÀ‹Õ» ≈
 //====================================
 
-Point centroid(Triangle a) {
-    return (S2L(medianA(a)) & S2L(medianB(a))).P1;
+Point centroid(Triangle t) {
+    return (S2L(medianA(t)) & S2L(medianB(t))).P1;
 }
 
-Point incenter(Triangle a) {
-    return (S2L(bisectorA(a)) & S2L(bisectorB(a))).P1;
+Point incenter(Triangle t) {
+    return (S2L(bisectorA(t)) & S2L(bisectorB(t))).P1;
 }
 
-Point orthocenter(Triangle a) {
-    return (S2L(heightA(a)) & S2L(heightB(a))).P1;
+Point orthocenter(Triangle t) {
+    return (S2L(heightA(t)) & S2L(heightB(t))).P1;
 }
 
 Point circumcenter(Triangle t) {
@@ -1014,6 +916,14 @@ bool operator!=(Triangle a, Triangle b) {
     return !(a == b);
 }
 
+bool operator==(BaryCoords a, BaryCoords b) {
+    return iE(a.u, b.u) && iE(a.v, b.v) && iE(a.w, b.w);
+}
+
+bool operator!=(BaryCoords a, BaryCoords b) {
+    return !(a == b);
+}
+
 //====================================
 //     ƒÀ»Õ€ / œÀŒŸ¿ƒ» / œ≈–»Ã≈“–€
 //====================================
@@ -1050,56 +960,64 @@ double perimeter(Circle o) {
     return 2 * PI * o.R;
 }
 
-double area2ALG(Triangle a) {
-    return (P2V(a.A, a.B) && P2V(a.A, a.C));
+double area2ALG(Triangle t) {
+    return (P2V(t.A, t.B) && P2V(t.A, t.C));
 }
 
-double areaALG(Triangle a) {
-    return area2ALG(a) / 2;
+double areaALG(Triangle t) {
+    return area2ALG(t) / 2;
 }
 
-double area2(Triangle a) {
-    return abs(area2ALG(a));
+double area2(Triangle t) {
+    return abs(area2ALG(t));
 }
 
-double area(Triangle a) {
-    return abs(areaALG(a));
+double area(Triangle t) {
+    return abs(areaALG(t));
 }
 
-double lenHeiA(Triangle a) {
-    return len(heightA(a));
+double lenS(Circle o) {
+    return SQ(perimeter(o));
 }
 
-double lenHeiB(Triangle a) {
-    return len(heightB(a));
+double len(Circle o) {
+    return perimeter(o);
 }
 
-double lenHeiC(Triangle a) {
-    return len(heightC(a));
+double lenHeiA(Triangle t) {
+    return len(heightA(t));
 }
 
-double lenMedA(Triangle a) {
-    return len(medianA(a));
+double lenHeiB(Triangle t) {
+    return len(heightB(t));
 }
 
-double lenMedB(Triangle a) {
-    return len(medianB(a));
+double lenHeiC(Triangle t) {
+    return len(heightC(t));
 }
 
-double lenMedC(Triangle a) {
-    return len(medianC(a));
+double lenMedA(Triangle t) {
+    return len(medianA(t));
 }
 
-double lenBisA(Triangle a) {
-    return len(bisectorA(a));
+double lenMedB(Triangle t) {
+    return len(medianB(t));
 }
 
-double lenBisB(Triangle a) {
-    return len(bisectorB(a));
+double lenMedC(Triangle t) {
+    return len(medianC(t));
 }
 
-double lenBisC(Triangle a) {
-    return len(bisectorC(a));
+double lenBisA(Triangle t) {
+    return len(bisectorA(t));
+}
+
+double lenBisB(Triangle t) {
+    return len(bisectorB(t));
+}
+
+double lenBisC(Triangle t) {
+    return len(bisectorC(t));
 }
 
 double lenAB(Triangle t) {
@@ -1295,10 +1213,6 @@ bool operator|(Point A, Line a) {
     return iZ(a.A * A.x + a.B * A.y + a.C);
 }
 
-bool operator|(Line a, Point A) {
-    return (A | a);
-}
-
 // “Ó˜Í‡ - ÓÚÂÁÓÍ
 
 bool operator|(Point A, Segment a) {
@@ -1314,28 +1228,16 @@ bool operator|(Point A, Segment a) {
     return false;
 }
 
-bool operator|(Segment a, Point A) {
-    return (A | a);
-}
-
 // “Ó˜Í‡ - ÓÍÛÊÌÓÒÚ¸
 
 bool operator|(Point A, Circle o) {
     return iE(lenS(P2V(o.O, A)), SQ(o.R));
 }
 
-bool operator|(Circle o, Point A) {
-    return (A | o);
-}
-
 // “Ó˜Í‡ - ¡¡ÓÍÒ
 
 bool operator|(Point A, BBox a) {
     return (A.x >= a.mn.x - EPS && A.x <= a.mx.x + EPS && A.y >= a.mn.y - EPS && A.y <= a.mx.y + EPS);
-}
-
-bool operator|(BBox a, Point A) {
-    return (A | a);
 }
 
 //====================================
@@ -1606,8 +1508,30 @@ Vector A2V(double alpha) {
     return {cos(alpha), sin(alpha)};
 }
 
+Triangle P2T(Point A, Point B, Point C) {
+    return {A, B, C};
+}
+
 Circle P2C(Point A, Point B, Point C) {
-    return circumscribed((Triangle){A, B, C});
+    return circumscribed(P2T(A, B, C));
+}
+
+BaryCoords PaT2Bar(Point P, Triangle t) {
+    double ABC = area(t);
+    if (ABC == 0) {
+        return {-INF, -INF, -INF};
+    }
+    double PBC = area(P2T(P, t.B, t.C));
+    double APC = area(P2T(t.A, P, t.C));
+    double ABP = area(P2T(t.A, t.B, P));
+    return {PBC / ABC, APC / ABC, ABP / ABC};
+}
+
+Point TaBar2P(Triangle t, BaryCoords b) {
+    return {
+        b.u * t.A.x + b.v * t.B.x + b.w * t.C.x,
+        b.u * t.A.y + b.v * t.B.y + b.w * t.C.y
+    };
 }
 
 // ¡¡ÓÍÒ˚
@@ -1646,4 +1570,4 @@ BBox C2B(Circle o) {
     return {{o.O.x - o.R, o.O.y - o.R}, {o.O.x + o.R, o.O.y + o.R}};
 }
 
-#endif // GEOMETRY++_H_INCLUDED
+#endif // GEOMETRYPLUSPLUS_H_INCLUDED
