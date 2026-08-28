@@ -30,7 +30,7 @@
 ### Подключение
 
 ```cpp
-#include "geometryplusplus.h"
+#include "geometry++.h"
 using namespace std;
 ```
 
