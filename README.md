@@ -142,6 +142,15 @@ bool onSegment = P | s;  // true
 - `PaT2Bar(P, t)` — точка → барицентрические координаты
 - `TaBar2P(t, b)` — барицентрические координаты → точка
 
+### Предупреждения
+
+- Флаг `SHOW_WARNINGS` позволяет включать и выключать предупреждения в коде. По умолчанию он `включен`, чтоб выключить напишите
+```cpp
+int main() {
+    SHOW_WARNINGS = false;
+    // Дальнейший код
+```
+
 ---
 
 ## Полная документация
@@ -158,30 +167,18 @@ bool onSegment = P | s;  // true
 git clone https://github.com/FedorovIaromir/geometry-plus-plus.git
 ```
 
-Или просто скачайте `geometryplusplus.h` вручную.
+Или просто скачайте `geometry++.h` вручную.
 
 ### 2. Подключите в проекте
 
 ```cpp
-#include "geometryplusplus.h"
+#include "geometry++.h"
 ```
 
 ### 3. Скомпилируйте с C++17
 
 ```bash
 g++ -std=c++17 main.cpp -o program
-```
-
----
-
-## Структура репозитория
-
-```
-geometry-plus-plus/
-├── geometryplusplus.h
-├── Geometry++_Документация.docx
-├── README.md
-└── LICENSE
 ```
 
 ---
