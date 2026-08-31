@@ -4,11 +4,14 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <limits>
+#include <algorithm>
+#define CHECKWARNINGS if (SHOW_WARNINGS)
 
 using namespace std;
 
 //====================================
-//             —“–” “”–€
+//             –°–¢–†–£–ö–¢–£–†–´
 //====================================
 
 struct Point {
@@ -50,11 +53,11 @@ struct BaryCoords {
 };
 
 //====================================
-//               ŒÕ—“¿Õ“€
+//       –ö–û–ù–°–¢–ê–ù–¢–´ –ò –ü–ï–†–ï–ú–ï–ù–ù–´–ï
 //====================================
 
 const double PI = acos(-1);
-const double INF = 1e500;
+const double INF = numeric_limits<double>::infinity();
 const double EPS = 1e-9;
 
 const Point UNDEF = {INF, INF};
@@ -63,18 +66,22 @@ const Point NAP = {-INF, -INF};
 const IntersectOut ZERP = {NAP, NAP, 0};
 const IntersectOut INFP = {UNDEF, UNDEF, -1};
 
+const BaryCoords BARYCENTER = {1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0};
+
+inline bool SHOW_WARNINGS = true;
+
 //====================================
-//              œ–Œ“Œ“»œ€
+//              –ü–†–û–¢–û–¢–ò–ü–´
 //====================================
 
-// ----- ¡¿«Œ¬€≈ ‘”Õ ÷»» -----
+// ----- –ë–ê–ó–û–í–´–ï –§–£–ù–ö–¶–ò–ò -----
 bool iZ(double a);
 bool iE(double a, double b);
 double SQ(double a);
 double r2d(double radians);
 double d2r(double degrees);
 
-// ----- ƒÀ»Õ€ -----
+// ----- –î–õ–ò–ù–´ -----
 double lenS(Vector a);
 double len(Vector a);
 double lenS(Segment a);
@@ -84,7 +91,7 @@ double len(Line a);
 double lenS(Circle o);
 double len(Circle o);
 
-// ----- ¬≈ “Œ–€ -----
+// ----- –í–ï–ö–¢–û–†–´ -----
 Vector normalize(Vector a);
 Vector RCC(Vector a, double alpha);
 Vector RC(Vector a, double alpha);
@@ -95,7 +102,7 @@ bool isOrth(Vector a, Vector b);
 bool isCodir(Vector a, Vector b);
 bool isOpp(Vector a, Vector b);
 
-// ----- “Œ◊ » -----
+// ----- –¢–û–ß–ö–ò -----
 Point midpoint(Point A, Point B);
 Point midpoint(Segment a);
 bool isCol(Point A, Point B, Point C);
@@ -104,7 +111,7 @@ Point RC(Point A, Point O, double alpha);
 Point reflect(Point A, Line a);
 double angleAOB(Point A, Point O, Point B);
 
-// ----- œ–ﬂÃ€≈ -----
+// ----- –ü–†–Ø–ú–´–ï -----
 Point project(Point A, Line l);
 Line normalize(Line a);
 Vector direction(Line l);
@@ -113,14 +120,14 @@ Point pointOn(Line l);
 bool isParallel(Line a, Line b);
 bool isPerpendicular(Line a, Line b);
 
-// ----- Œ“–≈« » -----
+// ----- –û–¢–†–ï–ó–ö–ò -----
 Point project(Point A, Segment a);
 
-// ----- ¡¡Œ —€ -----
+// ----- –ë–ë–û–ö–°–´ -----
 bool isBTB(BBox a, BBox b);
 Point BTB(BBox a, BBox b);
 
-// ----- “–≈”√ŒÀ‹Õ» » (·‡ÁÓ‚˚Â) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (–±–∞–∑–æ–≤—ã–µ) -----
 double area2ALG(Triangle t);
 double areaALG(Triangle t);
 double area2(Triangle t);
@@ -130,12 +137,12 @@ bool isDeg(Triangle t);
 double orient(Triangle t);
 Triangle makeCCW(Triangle t);
 
-// ----- “–≈”√ŒÀ‹Õ» » (Û„Î˚) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (—É–≥–ª—ã) -----
 double angleA(Triangle t);
 double angleB(Triangle t);
 double angleC(Triangle t);
 
-// ----- “–≈”√ŒÀ‹Õ» » (ÔÓ‚ÂÍË) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (–ø—Ä–æ–≤–µ—Ä–∫–∏) -----
 bool isAcute(Triangle t);
 bool isRight(Triangle t);
 bool isObtuse(Triangle t);
@@ -145,7 +152,7 @@ bool isScal(Triangle t);
 bool isSim(Triangle a, Triangle b);
 bool isCongr(Triangle a, Triangle b);
 
-// ----- “–≈”√ŒÀ‹Õ» » (ÓÚÂÁÍË) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (–æ—Ç—Ä–µ–∑–∫–∏) -----
 Segment heightA(Triangle t);
 Segment heightB(Triangle t);
 Segment heightC(Triangle t);
@@ -159,19 +166,19 @@ Segment midsegmentAB(Triangle t);
 Segment midsegmentBC(Triangle t);
 Segment midsegmentCA(Triangle t);
 
-// ----- “–≈”√ŒÀ‹Õ» » (ÚÓ˜ÍË) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (—Ç–æ—á–∫–∏) -----
 Point centroid(Triangle t);
 Point incenter(Triangle t);
 Point orthocenter(Triangle t);
 Point circumcenter(Triangle t);
 
-// ----- “–≈”√ŒÀ‹Õ» » (ÓÍÛÊÌÓÒÚË) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (–æ–∫—Ä—É–∂–Ω–æ—Å—Ç–∏) -----
 Circle circumscribed(Triangle t);
 Circle inscribed(Triangle t);
 double inradius(Triangle t);
 double circumradius(Triangle t);
 
-// ----- “–≈”√ŒÀ‹Õ» » (‰ÎËÌ˚ ÓÚÂÁÍÓ‚) -----
+// ----- –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò (–¥–ª–∏–Ω—ã –æ—Ç—Ä–µ–∑–∫–æ–≤) -----
 double lenHeiA(Triangle t);
 double lenHeiB(Triangle t);
 double lenHeiC(Triangle t);
@@ -186,11 +193,11 @@ double lenBC(Triangle t);
 double lenAC(Triangle t);
 double perimeter(Triangle t);
 
-// ----- Œ –”∆ÕŒ—“» -----
+// ----- –û–ö–†–£–ñ–ù–û–°–¢–ò -----
 double area(Circle o);
 double perimeter(Circle o);
 
-// ----- Œœ≈–¿“Œ–€ —–¿¬Õ≈Õ»ﬂ -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –°–†–ê–í–ù–ï–ù–ò–Ø -----
 bool operator==(Vector a, Vector b);
 bool operator!=(Vector a, Vector b);
 bool operator==(Point A, Point B);
@@ -208,7 +215,7 @@ bool operator!=(Triangle a, Triangle b);
 bool operator==(BaryCoords a, BaryCoords b);
 bool operator!=(BaryCoords a, BaryCoords b);
 
-// ----- Œœ≈–¿“Œ–€ ¿–»‘Ã≈“» » (‚ÂÍÚÓ˚) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –ê–†–ò–§–ú–ï–¢–ò–ö–ò (–≤–µ–∫—Ç–æ—Ä—ã) -----
 Vector operator+(Vector a, Vector b);
 Vector operator-(Vector a, Vector b);
 Vector operator*(Vector a, double k);
@@ -217,12 +224,12 @@ Vector operator/(Vector a, double k);
 double operator*(Vector a, Vector b);
 double operator&&(Vector a, Vector b);
 
-// ----- Œœ≈–¿“Œ–€ ¿–»‘Ã≈“» » (ÚÓ˜ÍË) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –ê–†–ò–§–ú–ï–¢–ò–ö–ò (—Ç–æ—á–∫–∏) -----
 Point operator+(Point A, Vector a);
 Point operator-(Point A, Vector a);
 Vector operator-(Point A, Point B);
 
-// ----- Œœ≈–¿“Œ–€ ”√ÀŒ¬ -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –£–ì–õ–û–í -----
 double operator^(Vector a, Vector b);
 double operator^(Vector a, Line l);
 double operator^(Line l, Vector a);
@@ -233,12 +240,12 @@ double operator^(Line a, Segment AB);
 double operator^(Segment AB, Line a);
 double operator^(Segment a, Segment b);
 
-// ----- Œœ≈–¿“Œ–€ –¿——“ŒﬂÕ»… (“Ó˜Í‡-“Ó˜Í‡) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –†–ê–°–°–¢–û–Ø–ù–ò–ô (–¢–æ—á–∫–∞-–¢–æ—á–∫–∞) -----
 double operator>>(Point A, Point B);
 double operator>(Point A, Point B);
 double operator<(Point A, Point B);
 
-// ----- Œœ≈–¿“Œ–€ –¿——“ŒﬂÕ»… (“Ó˜Í‡-œˇÏ‡ˇ) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –†–ê–°–°–¢–û–Ø–ù–ò–ô (–¢–æ—á–∫–∞-–ü—Ä—è–º–∞—è) -----
 double operator>>(Point A, Line a);
 double operator>(Point A, Line a);
 double operator<(Point A, Line a);
@@ -246,7 +253,7 @@ double operator>>(Line a, Point A);
 double operator>(Line a, Point A);
 double operator<(Line a, Point A);
 
-// ----- Œœ≈–¿“Œ–€ –¿——“ŒﬂÕ»… (“Ó˜Í‡-ŒÚÂÁÓÍ) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –†–ê–°–°–¢–û–Ø–ù–ò–ô (–¢–æ—á–∫–∞-–û—Ç—Ä–µ–∑–æ–∫) -----
 double operator>>(Point A, Segment a);
 double operator>(Point A, Segment a);
 double operator<(Point A, Segment a);
@@ -254,7 +261,7 @@ double operator>>(Segment a, Point A);
 double operator>(Segment a, Point A);
 double operator<(Segment a, Point A);
 
-// ----- Œœ≈–¿“Œ–€ –¿——“ŒﬂÕ»… (“Ó˜Í‡-ŒÍÛÊÌÓÒÚ¸) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –†–ê–°–°–¢–û–Ø–ù–ò–ô (–¢–æ—á–∫–∞-–û–∫—Ä—É–∂–Ω–æ—Å—Ç—å) -----
 double operator>>(Point A, Circle o);
 double operator>(Point A, Circle o);
 double operator<(Point A, Circle o);
@@ -262,13 +269,13 @@ double operator>>(Circle o, Point A);
 double operator>(Circle o, Point A);
 double operator<(Circle o, Point A);
 
-// ----- Œœ≈–¿“Œ–€ œ–»Õ¿ƒÀ≈∆ÕŒ—“» -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –ü–†–ò–ù–ê–î–õ–ï–ñ–ù–û–°–¢–ò -----
 bool operator|(Point A, Line a);
 bool operator|(Point A, Segment a);
 bool operator|(Point A, Circle o);
 bool operator|(Point A, BBox a);
 
-// ----- Œœ≈–¿“Œ–€ œ≈–≈—≈◊≈Õ»… (ÔÓ‚ÂÍ‡) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –ü–ï–†–ï–°–ï–ß–ï–ù–ò–ô (–ø—Ä–æ–≤–µ—Ä–∫–∞) -----
 bool operator||(BBox a, BBox b);
 bool operator||(Line a, Line b);
 bool operator||(Line a, Segment b);
@@ -280,7 +287,7 @@ bool operator||(Circle o, Line a);
 bool operator||(Segment a, Circle o);
 bool operator||(Circle o, Segment a);
 
-// ----- Œœ≈–¿“Œ–€ œ≈–≈—≈◊≈Õ»… (ÚÓ˜Í‡) -----
+// ----- –û–ü–ï–†–ê–¢–û–†–´ –ü–ï–†–ï–°–ï–ß–ï–ù–ò–ô (—Ç–æ—á–∫–∞) -----
 IntersectOut operator&(Line a, Line b);
 IntersectOut operator&(Line a, Segment b);
 IntersectOut operator&(Segment b, Line a);
@@ -291,7 +298,7 @@ IntersectOut operator&(Circle o, Line a);
 IntersectOut operator&(Segment a, Circle o);
 IntersectOut operator&(Circle o, Segment a);
 
-// -----  ŒÕ¬≈–“Œ–€ -----
+// ----- –ö–û–ù–í–ï–†–¢–û–†–´ -----
 Vector P2V(Point A, Point B);
 Vector P2V(Point A);
 Point V2P(Vector a);
@@ -307,7 +314,7 @@ Triangle P2T(Point A, Point B, Point C);
 BaryCoords PaT2Bar(Point P, Triangle t);
 Point TaBar2P(Triangle t, BaryCoords b);
 
-// ----- ¡¡Œ —€ (ÍÓÌ‚ÂÚÓ˚) -----
+// ----- –ë–ë–û–ö–°–´ (–∫–æ–Ω–≤–µ—Ä—Ç–æ—Ä—ã) -----
 BBox P2B(Point A);
 BBox P2B(Point A, Point B);
 BBox V2B(Vector a);
@@ -316,7 +323,7 @@ BBox S2B(Segment a);
 BBox C2B(Circle o);
 
 //====================================
-//       Ã¿“≈Ã¿“»◊≈— »≈ ‘”Õ ÷»»
+//       –ú–ê–¢–ï–ú–ê–¢–ò–ß–ï–°–ö–ò–ï –§–£–ù–ö–¶–ò–ò
 //====================================
 
 bool iZ(double a) {
@@ -340,11 +347,14 @@ double d2r(double degrees) {
 }
 
 //====================================
-//               ¬¬Œƒ
+//               –í–í–û–î
 //====================================
 
 istream &operator>>(istream &in, Vector &a) {
     in >> a.x >> a.y;
+    if (iZ(a.x) && iZ(a.y)) {
+        CHECKWARNINGS cout << "Warning: degenerate vector!\n";
+    }
     return in;
 }
 
@@ -355,11 +365,17 @@ istream &operator>>(istream &in, Point &A) {
 
 istream &operator>>(istream &in, Line &a) {
     in >> a.A >> a.B >> a.C;
+    if (iZ(a.A) && iZ(a.B)) {
+        CHECKWARNINGS cout << "Warning: degenerate Line!\n";
+    }
     return in;
 }
 
 istream &operator>>(istream &in, Segment &a) {
     in >> a.A >> a.B;
+    if (a.A == a.B) {
+        CHECKWARNINGS cout << "Warning: degenerate segment!\n";
+    }
     return in;
 }
 
@@ -370,25 +386,35 @@ istream &operator>>(istream &in, BBox &a) {
 
 istream &operator>>(istream &in, Circle &o) {
     in >> o.O >> o.R;
+    if (iZ(o.R)) {
+        CHECKWARNINGS cout << "Warning: degenerate circle!\n";
+    }
+    if (o.R < -EPS) {
+        CHECKWARNINGS cout << "Warning: circle radius < 0, radius set to ABS(radius)!\n";
+        o.R = abs(o.R);
+    }
     return in;
 }
 
 istream &operator>>(istream &in, Triangle &a) {
     in >> a.A >> a.B >> a.C;
+    if (isDeg(a)) {
+        CHECKWARNINGS cout << "Warning: degenerate triangle!\n";
+    }
     return in;
 }
 
 istream &operator>>(istream &in, BaryCoords &b) {
     in >> b.u >> b.v >> b.w;
     if (!iE(b.u + b.v + b.w, 1.0)) {
-        cout << "Error: barycoords sum != 1\n";
-        exit(0);
+        CHECKWARNINGS cout << "Warning: barycoords sum != 1\n";
+        b = BARYCENTER;
     }
     return in;
 }
 
 //====================================
-//               ¬€¬Œƒ
+//               –í–´–í–û–î
 //====================================
 
 ostream &operator<<(ostream &out, Vector a) {
@@ -417,8 +443,8 @@ ostream &operator<<(ostream &out, BBox a) {
 }
 
 ostream &operator<<(ostream &out, Circle o) {
-    out << "(x " << ((o.O.x >= 0) ? "- " + to_string(o.O.x) : "+ " + to_string(abs(o.O.x))) << ")^2 + (y "
-    << ((o.O.y >= 0) ? "- " + to_string(o.O.y) : "+ " + to_string(abs(o.O.y))) << ")^2 = " << o.R << "^2";
+    out << "(x " << ((o.O.x > 0) ? "- " + to_string(o.O.x) : "+ " + to_string(abs(o.O.x))) << ")^2 + (y "
+    << ((o.O.y > 0) ? "- " + to_string(o.O.y) : "+ " + to_string(abs(o.O.y))) << ")^2 = " << o.R << "^2";
     return out;
 }
 
@@ -438,11 +464,14 @@ ostream &operator<<(ostream &out, IntersectOut i) {
 }
 
 //====================================
-//              ¬≈ “Œ–€
+//              –í–ï–ö–¢–û–†–´
 //====================================
 
 Vector normalize(Vector a) {
     double l = len(a);
+    if (iZ(l)) {
+        return {0,0};
+    }
     return {a.x / l, a.y / l};
 }
 
@@ -511,7 +540,7 @@ bool isOpp(Vector a, Vector b) {
 }
 
 //====================================
-//               “Œ◊ »
+//               –¢–û–ß–ö–ò
 //====================================
 
 Point midpoint(Point A, Point B) {
@@ -554,10 +583,13 @@ Point reflect(Point A, Line a) {
 }
 
 //====================================
-//              œ–ﬂÃ€≈
+//              –ü–†–Ø–ú–´–ï
 //====================================
 
 Point project(Point A, Line l) {
+    if (iZ(l.A) && iZ(l.B)) {
+        return A;
+    }
     if (A | l) {
         return A;
     }
@@ -566,12 +598,17 @@ Point project(Point A, Line l) {
 }
 
 Line normalize(Line a) {
+    if (iZ(a.A) && iZ(a.B)) {
+        return {0, 0, 0};
+    }
     double V = sqrt(SQ(a.A) + SQ(a.B));
     Line l = {a.A / V, a.B / V, a.C};
     if (a.C < 0) {
         l.C /= V;
     } else {
         l.C /= -V;
+        l.A *= -1;
+        l.B *= -1;
     }
     return l;
 }
@@ -585,8 +622,11 @@ Vector normal(Line l) {
 }
 
 Point pointOn(Line l) {
+    if (iZ(l.A) && iZ(l.B)) {
+        return {0, 0};
+    }
     if (iZ(l.B)) {
-        return {l.C, 0};
+        return {(-l.C) / l.A, 0};
     }
     return {0, (-l.C) / l.B};
 }
@@ -600,7 +640,7 @@ bool isPerpendicular(Line a, Line b) {
 }
 
 //====================================
-//              Œ“–≈« »
+//              –û–¢–†–ï–ó–ö–ò
 //====================================
 
 Point project(Point A, Segment a) {
@@ -617,7 +657,7 @@ Point project(Point A, Segment a) {
 }
 
 //====================================
-//              ¡¡Œ —€
+//              –ë–ë–û–ö–°–´
 //====================================
 
 bool isBTB(BBox a, BBox b) {
@@ -644,7 +684,7 @@ Point BTB(BBox a, BBox b) {
 }
 
 //====================================
-//            “–≈”√ŒÀ‹Õ» »
+//            –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ò
 //====================================
 
 bool isDeg(Triangle t) {
@@ -656,30 +696,51 @@ double orient(Triangle t) {
 }
 
 bool isAcute(Triangle t) {
+    if (isDeg(t)) {
+        return false;
+    }
     return (angleA(t) < PI / 2 && angleB(t) < PI / 2 && angleC(t) < PI / 2);
 }
 
 bool isRight(Triangle t) {
+    if (isDeg(t)) {
+        return false;
+    }
     return (iE(angleA(t), PI / 2) || iE(angleB(t), PI / 2) || iE(angleC(t), PI / 2));
 }
 
 bool isObtuse(Triangle t) {
+    if (isDeg(t)) {
+        return false;
+    }
     return (angleA(t) > PI / 2 || angleB(t) > PI / 2 || angleC(t) > PI / 2);
 }
 
 Circle circumscribed(Triangle t) {
+    if (isDeg(t)) {
+        return {NAP, 0};
+    }
     return {circumcenter(t), circumcenter(t) > t.A};
 }
 
 Circle inscribed(Triangle t) {
+    if (isDeg(t)) {
+        return {NAP, 0};
+    }
     return {incenter(t), incenter(t) > P2L(t.A, t.B)};
 }
 
 bool isEquil(Triangle t) {
+    if (isDeg(t)) {
+        return false;
+    }
     return lenAB(t) == lenBC(t) && lenBC(t) == lenAC(t);
 }
 
 bool isIsosc(Triangle t) {
+    if (isDeg(t)) {
+        return false;
+    }
     if (isEquil(t)) {
         return false;
     }
@@ -687,6 +748,9 @@ bool isIsosc(Triangle t) {
 }
 
 bool isScal(Triangle t) {
+    if (isDeg(t)) {
+        return false;
+    }
     return !isEquil(t) && !isIsosc(t);
 }
 
@@ -706,17 +770,26 @@ double circumradius(Triangle t) {
 }
 
 bool isSim(Triangle a, Triangle b) {
+    if (isDeg(a) || isDeg(b)) {
+        return false;
+    }
     double a1 = lenBC(a), b1 = lenAC(a), c1 = lenAB(a);
     double a2 = lenBC(b), b2 = lenAC(b), c2 = lenAB(b);
     double s1[3] = {a1, b1, c1};
     double s2[3] = {a2, b2, c2};
     sort(s1, s1 + 3);
     sort(s2, s2 + 3);
+    if (iZ(s1[0]) || iZ(s2[0])) {
+        return false;
+    }
     double k = s1[0] / s2[0];
     return iE(s1[1] / s2[1], k) && iE(s1[2] / s2[2], k);
 }
 
 bool isCongr(Triangle a, Triangle b) {
+    if (isDeg(a) || isDeg(b)) {
+        return false;
+    }
     double a1 = lenBC(a), b1 = lenAC(a), c1 = lenAB(a);
     double a2 = lenBC(b), b2 = lenAC(b), c2 = lenAB(b);
     double s1[3] = {a1, b1, c1};
@@ -727,49 +800,69 @@ bool isCongr(Triangle a, Triangle b) {
 }
 
 //====================================
-//        Œ“–≈« » ¬ “–≈”√ŒÀ‹Õ» ≈
+//        –û–¢–†–ï–ó–ö–ò –í –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ï
 //====================================
 
-// ¬˚ÒÓÚ˚
+// –í—ã—Å–æ—Ç—ã
 
 Segment heightA(Triangle t) {
+    if (isDeg(t)) {
+        return {t.A, t.A};
+    }
     Point f = project(t.A, P2L(t.B, t.C));
     return {t.A, f};
 }
 
 Segment heightB(Triangle t) {
+    if (isDeg(t)) {
+        return {t.B, t.B};
+    }
     Point f = project(t.B, P2L(t.A, t.C));
     return {t.B, f};
 }
 
 Segment heightC(Triangle t) {
+    if (isDeg(t)) {
+        return {t.C, t.C};
+    }
     Point f = project(t.C, P2L(t.A, t.B));
     return {t.C, f};
 }
 
-// ÃÂ‰Ë‡Ì˚
+// –ú–µ–¥–∏–∞–Ω—ã
 
 Segment medianA(Triangle t) {
+    if (isDeg(t)) {
+        return {t.A, t.A};
+    }
     Point mid = midpoint(t.B, t.C);
     return {t.A, mid};
 }
 
 Segment medianB(Triangle t) {
+    if (isDeg(t)) {
+        return {t.B, t.B};
+    }
     Point mid = midpoint(t.A, t.C);
     return {t.B, mid};
 }
 
 Segment medianC(Triangle t) {
+    if (isDeg(t)) {
+        return {t.C, t.C};
+    }
     Point mid = midpoint(t.A, t.B);
     return {t.C, mid};
 }
 
-// ¡ËÒÒÂÍÚËÒ˚
+// –ë–∏—Å—Å–µ–∫—Ç—Ä–∏—Å—ã
 
 Segment bisectorA(Triangle t) {
-    double a = len(t.B - t.C);
     double b = len(t.C - t.A);
     double c = len(t.A - t.B);
+    if (iZ(b + c)) {
+        return {t.A, t.A};
+    }
     Vector vB = P2V(t.B) * b;
     Vector vC = P2V(t.C) * c;
     Vector vD = (vB + vC) / (b + c);
@@ -779,8 +872,10 @@ Segment bisectorA(Triangle t) {
 
 Segment bisectorB(Triangle t) {
     double a = len(t.B - t.C);
-    double b = len(t.C - t.A);
     double c = len(t.A - t.B);
+    if (iZ(a + c)) {
+        return {t.B, t.B};
+    }
     Vector vA = P2V(t.A) * c;
     Vector vC = P2V(t.C) * a;
     Vector vD = (vA + vC) / (c + a);
@@ -791,7 +886,9 @@ Segment bisectorB(Triangle t) {
 Segment bisectorC(Triangle t) {
     double a = len(t.B - t.C);
     double b = len(t.C - t.A);
-    double c = len(t.A - t.B);
+    if (iZ(b + a)) {
+        return {t.C, t.C};
+    }
     Vector vA = P2V(t.A) * b;
     Vector vB = P2V(t.B) * a;
     Vector vD = (vA + vB) / (b + a);
@@ -799,7 +896,7 @@ Segment bisectorC(Triangle t) {
     return {t.C, D};
 }
 
-// —Â‰ÌËÂ ÎËÌËË
+// –°—Ä–µ–¥–Ω–∏–µ –ª–∏–Ω–∏–∏
 Segment midsegmentAB(Triangle t) {
     Point mid1 = midpoint(t.A, t.C);
     Point mid2 = midpoint(t.B, t.C);
@@ -819,18 +916,27 @@ Segment midsegmentCA(Triangle t) {
 }
 
 //====================================
-//        “Œ◊ » ¬ “–≈”√ŒÀ‹Õ» ≈
+//        –¢–û–ß–ö–ò –í –¢–†–ï–£–ì–û–õ–¨–ù–ò–ö–ï
 //====================================
 
 Point centroid(Triangle t) {
+    if (isDeg(t)) {
+        return NAP;
+    }
     return (S2L(medianA(t)) & S2L(medianB(t))).P1;
 }
 
 Point incenter(Triangle t) {
+    if (isDeg(t)) {
+        return NAP;
+    }
     return (S2L(bisectorA(t)) & S2L(bisectorB(t))).P1;
 }
 
 Point orthocenter(Triangle t) {
+    if (isDeg(t)) {
+        return NAP;
+    }
     return (S2L(heightA(t)) & S2L(heightB(t))).P1;
 }
 
@@ -851,7 +957,7 @@ Point circumcenter(Triangle t) {
 }
 
 //====================================
-//         —Œ¬œ¿ƒ≈Õ»≈ / Õ≈“
+//         –°–û–í–ü–ê–î–ï–ù–ò–ï / –ù–ï–¢
 //====================================
 
 bool operator==(Vector a, Vector b) {
@@ -925,7 +1031,7 @@ bool operator!=(BaryCoords a, BaryCoords b) {
 }
 
 //====================================
-//     ƒÀ»Õ€ / œÀŒŸ¿ƒ» / œ≈–»Ã≈“–€
+//     –î–õ–ò–ù–´ / –ü–õ–û–©–ê–î–ò / –ü–ï–†–ò–ú–ï–¢–†–´
 //====================================
 
 double lenS(Vector a) {
@@ -1037,10 +1143,13 @@ double perimeter(Triangle t) {
 }
 
 //====================================
-//             ”√À€ Ã≈∆ƒ”
+//             –£–ì–õ–´ –ú–ï–ñ–î–£
 //====================================
 
 double operator^(Vector a, Vector b) {
+    if (iZ(len(a)) || iZ(len(b))) {
+        return 0;
+    }
     return acos((a * b) / ((len(a)) * (len(b))));
 }
 
@@ -1093,10 +1202,10 @@ double angleC(Triangle t) {
 }
 
 //====================================
-//             –¿——“ŒﬂÕ»ﬂ             >> ‡Î„Â·‡Ë˜ÂÒÍÓÂ, > „ÂÓÏÂÚË˜ÂÒÍÓÂ, < Í‚‡‰‡Ú
+//             –†–ê–°–°–¢–û–Ø–ù–ò–Ø             >> –∞–ª–≥–µ–±—Ä–∞–∏—á–µ—Å–∫–æ–µ, > –≥–µ–æ–º–µ—Ç—Ä–∏—á–µ—Å–∫–æ–µ, < –∫–≤–∞–¥—Ä–∞—Ç
 //====================================
 
-// “Ó˜Í‡ - ÚÓ˜Í‡
+// –¢–æ—á–∫–∞ - —Ç–æ—á–∫–∞
 
 double operator>>(Point A, Point B) {
     return len(P2V(A, B));
@@ -1107,12 +1216,15 @@ double operator>(Point A, Point B) {
 }
 
 double operator<(Point A, Point B) {
-    return -lenS(P2V(A, B));
+    return lenS(P2V(A, B));
 }
 
-// “Ó˜Í‡ - ÔˇÏ‡ˇ
+// –¢–æ—á–∫–∞ - –ø—Ä—è–º–∞—è
 
 double operator>>(Point A, Line a) {
+    if (iZ(a.A) && iZ(a.B)) {
+        return 0;
+    }
     return (a.A * A.x + a.B * A.y + a.C) / sqrt(SQ(a.A) + SQ(a.B));
 }
 
@@ -1124,7 +1236,7 @@ double operator<(Point A, Line a) {
     return SQ(A >> a);
 }
 
-// œˇÏ‡ˇ - ÚÓ˜Í‡
+// –ü—Ä—è–º–∞—è - —Ç–æ—á–∫–∞
 
 double operator>>(Line a, Point A) {
     return (A >> a);
@@ -1138,11 +1250,14 @@ double operator<(Line a, Point A) {
     return SQ(A >> a);
 }
 
-// “Ó˜Í‡ - ÓÚÂÁÓÍ
+// –¢–æ—á–∫–∞ - –æ—Ç—Ä–µ–∑–æ–∫
 
 double operator>>(Point A, Segment a) {
     if (A | a) {
         return 0;
+    }
+    if (iZ(len(a))) {
+        return len(P2V(a.A, A));
     }
     if (P2V(a.A, A) * P2V(a.A, a.B) <= 0) {
         return (A > a.A);
@@ -1161,7 +1276,7 @@ double operator<(Point A, Segment a) {
     return SQ(A >> a);
 }
 
-// ŒÚÂÁÓÍ - ÚÓ˜Í‡
+// –û—Ç—Ä–µ–∑–æ–∫ - —Ç–æ—á–∫–∞
 
 double operator>>(Segment a, Point A) {
     return (A >> a);
@@ -1175,7 +1290,7 @@ double operator<(Segment a, Point A) {
     return SQ(A >> a);
 }
 
-// “Ó˜Í‡ - ÓÍÛÊÌÓÒÚ¸
+// –¢–æ—á–∫–∞ - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 double operator>>(Point A, Circle o) {
     return len(P2V(o.O, A)) - o.R;
@@ -1189,7 +1304,7 @@ double operator<(Point A, Circle o) {
     return SQ(A >> o);
 }
 
-// ŒÍÛÊÌÓÒÚ¸ - ÚÓ˜Í‡
+// –û–∫—Ä—É–∂–Ω–æ—Å—Ç—å - —Ç–æ—á–∫–∞
 
 double operator>>(Circle o, Point A) {
     return (A >> o);
@@ -1204,16 +1319,16 @@ double operator<(Circle o, Point A) {
 }
 
 //====================================
-//            œ–»Õ¿ƒÀ≈∆ÕŒ—“‹
+//            –ü–†–ò–ù–ê–î–õ–ï–ñ–ù–û–°–¢–¨
 //====================================
 
-// “Ó˜Í‡ - ÔˇÏ‡ˇ
+// –¢–æ—á–∫–∞ - –ø—Ä—è–º–∞—è
 
 bool operator|(Point A, Line a) {
     return iZ(a.A * A.x + a.B * A.y + a.C);
 }
 
-// “Ó˜Í‡ - ÓÚÂÁÓÍ
+// –¢–æ—á–∫–∞ - –æ—Ç—Ä–µ–∑–æ–∫
 
 bool operator|(Point A, Segment a) {
     Line l = S2L(a);
@@ -1228,29 +1343,29 @@ bool operator|(Point A, Segment a) {
     return false;
 }
 
-// “Ó˜Í‡ - ÓÍÛÊÌÓÒÚ¸
+// –¢–æ—á–∫–∞ - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 bool operator|(Point A, Circle o) {
     return iE(lenS(P2V(o.O, A)), SQ(o.R));
 }
 
-// “Ó˜Í‡ - ¡¡ÓÍÒ
+// –¢–æ—á–∫–∞ - –ë–ë–æ–∫—Å
 
 bool operator|(Point A, BBox a) {
     return (A.x >= a.mn.x - EPS && A.x <= a.mx.x + EPS && A.y >= a.mn.y - EPS && A.y <= a.mx.y + EPS);
 }
 
 //====================================
-//          œ≈–≈—≈ ¿ﬁ“—ﬂ À»
+//          –ü–ï–†–ï–°–ï–ö–ê–Æ–¢–°–Ø –õ–ò
 //====================================
 
-// ¡¡ÓÍÒ - ¡¡ÓÍÒ
+// –ë–ë–æ–∫—Å - –ë–ë–æ–∫—Å
 
 bool operator||(BBox a, BBox b) {
     return a.mn.x <= b.mx.x + EPS && b.mn.x <= a.mx.x + EPS && a.mn.y <= b.mx.y + EPS && b.mn.y <= a.mx.y + EPS;
 }
 
-// œˇÏ‡ˇ - ÔˇÏ‡ˇ
+// –ü—Ä—è–º–∞—è - –ø—Ä—è–º–∞—è
 
 bool operator||(Line a, Line b) {
     if (a == b) {
@@ -1262,7 +1377,7 @@ bool operator||(Line a, Line b) {
     return true;
 }
 
-// œˇÏ‡ˇ - ÓÚÂÁÓÍ
+// –ü—Ä—è–º–∞—è - –æ—Ç—Ä–µ–∑–æ–∫
 
 bool operator||(Line a, Segment b) {
     Line l = S2L(b);
@@ -1280,7 +1395,7 @@ bool operator||(Segment b, Line a) {
     return (a || b);
 }
 
-// ŒÚÂÁÓÍ - ÓÚÂÁÓÍ
+// –û—Ç—Ä–µ–∑–æ–∫ - –æ—Ç—Ä–µ–∑–æ–∫
 
 bool operator||(Segment a, Segment b) {
     Line A = S2L(a), B = S2L(b);
@@ -1296,16 +1411,19 @@ bool operator||(Segment a, Segment b) {
     return false;
 }
 
-// ŒÍÛÊÌÓÒÚ¸ - ÓÍÛÊÌÓÒÚ¸
+// –û–∫—Ä—É–∂–Ω–æ—Å—Ç—å - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 bool operator||(Circle a, Circle b) {
     double d = len(P2V(a.O, b.O));
     return (d <= a.R + b.R + EPS && d >= abs(a.R - b.R) - EPS);
 }
 
-// œˇÏ‡ˇ - ÓÍÛÊÌÓÒÚ¸
+// –ü—Ä—è–º–∞—è - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 bool operator||(Line a, Circle o) {
+    if (iZ(a.A) && iZ(a.B)) {
+        return false;
+    }
     return (o.O > a) <= o.R + EPS;
 }
 
@@ -1313,7 +1431,7 @@ bool operator||(Circle o, Line a) {
     return (a || o);
 }
 
-// ŒÚÂÁÓÍ - ÓÍÛÊÌÓÒÚ¸
+// –û—Ç—Ä–µ–∑–æ–∫ - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 bool operator||(Segment a, Circle o) {
     double dA = o.O > a.A;
@@ -1324,6 +1442,9 @@ bool operator||(Segment a, Circle o) {
     if (dA > o.R + EPS && dB > o.R + EPS) {
         return (o.O > a) <= o.R + EPS;
     }
+    if (iE(dA, o.R) || iE(dB, o.R)) {
+        return true;
+    }
     return false;
 }
 
@@ -1332,10 +1453,10 @@ bool operator||(Circle o, Segment a) {
 }
 
 //====================================
-//         “Œ◊ ¿ œ≈–≈—≈◊≈Õ»ﬂ
+//         –¢–û–ß–ö–ê –ü–ï–†–ï–°–ï–ß–ï–ù–ò–Ø
 //====================================
 
-// œˇÏ‡ˇ - ÔˇÏ‡ˇ
+// –ü—Ä—è–º–∞—è - –ø—Ä—è–º–∞—è
 
 IntersectOut operator&(Line a, Line b) {
     if (a == b) {
@@ -1349,10 +1470,19 @@ IntersectOut operator&(Line a, Line b) {
     return {t, NAP, 1};
 }
 
-// œˇÏ‡ˇ - ÓÚÂÁÓÍ
+// –ü—Ä—è–º–∞—è - –æ—Ç—Ä–µ–∑–æ–∫
 
 IntersectOut operator&(Line a, Segment b) {
     if (!(a || b)) {
+        return ZERP;
+    }
+    if (iZ(len(b))) {
+        if (b.A | a) {
+            return {b.A, NAP, 1};
+        }
+        return ZERP;
+    }
+    if (iZ(a.A) && iZ(a.B)) {
         return ZERP;
     }
     Line l = S2L(b);
@@ -1366,7 +1496,7 @@ IntersectOut operator&(Segment b, Line a) {
     return (a & b);
 }
 
-// ŒÚÂÁÓÍ - ÓÚÂÁÓÍ
+// –û—Ç—Ä–µ–∑–æ–∫ - –æ—Ç—Ä–µ–∑–æ–∫
 
 IntersectOut operator&(Segment a, Segment b) {
     BBox AA = S2B(a), BB = S2B(b);
@@ -1375,6 +1505,24 @@ IntersectOut operator&(Segment a, Segment b) {
     }
     Line A = S2L(a), B = S2L(b);
     if (A == B) {
+        if (iZ(len(a)) && iZ(len(b))) {
+            if (a.A == b.A || a.A == b.B) {
+                return {a.A, NAP, 1};
+            }
+            return ZERP;
+        }
+        if (iZ(len(a))) {
+            if (a.A | b) {
+                return {a.A, NAP, 1};
+            }
+            return ZERP;
+        }
+        if (iZ(len(b))) {
+            if (b.A | a) {
+                return {b.A, NAP, 1};
+            }
+            return ZERP;
+        }
         if (isBTB(AA, BB)) {
             return {BTB(AA, BB), NAP, 1};
         }
@@ -1383,7 +1531,7 @@ IntersectOut operator&(Segment a, Segment b) {
     return (A & b);
 }
 
-// ŒÍÛÊÌÓÒÚ¸ - ÓÍÛÊÌÓÒÚ¸
+// –û–∫—Ä—É–∂–Ω–æ—Å—Ç—å - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 IntersectOut operator&(Circle a, Circle b) {
     if (!(a || b)) {
@@ -1406,9 +1554,12 @@ IntersectOut operator&(Circle a, Circle b) {
     return {P1, P2, 2};
 }
 
-// œˇÏ‡ˇ - ÓÍÛÊÌÓÒÚ¸
+// –ü—Ä—è–º–∞—è - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 IntersectOut operator&(Line a, Circle o) {
+    if (iZ(a.A) && iZ(a.B)) {
+        return ZERP;
+    }
     double d = o.O > a;
     double ad = abs(d);
     if (!(a || o)) {
@@ -1430,9 +1581,15 @@ IntersectOut operator&(Circle o, Line a) {
     return (a & o);
 }
 
-// ŒÚÂÁÓÍ - ÓÍÛÊÌÓÒÚ¸
+// –û—Ç—Ä–µ–∑–æ–∫ - –æ–∫—Ä—É–∂–Ω–æ—Å—Ç—å
 
 IntersectOut operator&(Segment a, Circle o) {
+    if (iZ(len(a))) {
+        if (a.A | o) {
+            return {a.A, NAP, 1};
+        }
+        return ZERP;
+    }
     if (!(a || o)) {
         return ZERP;
     }
@@ -1465,14 +1622,20 @@ IntersectOut operator&(Circle o, Segment a) {
 }
 
 //====================================
-//              ŒÕ¬≈–“Œ–€
+//             –ö–û–ù–í–ï–†–¢–û–†–´
 //====================================
 
 Vector P2V(Point A, Point B) {
+    if (A == B) {
+        CHECKWARNINGS cout << "Warning: degenerate vector!\n";
+    }
     return {B.x - A.x, B.y - A.y};
 }
 
 Vector P2V(Point A) {
+    if (A == (Point){0, 0}) {
+        CHECKWARNINGS cout << "Warning: degenerate vector!\n";
+    }
     return {A.x, A.y};
 }
 
@@ -1481,26 +1644,50 @@ Point V2P(Vector a) {
 }
 
 Line P2L(Point A, Point B) {
+    if (A == B) {
+        CHECKWARNINGS cout << "Warning: degenerate line!\n";
+        return {0, 0, 0};
+    }
     return {A.y - B.y, B.x - A.x, A.x * B.y - B.x * A.y};
 }
 
 Segment P2S(Point A, Point B) {
+    if (A == B) {
+        CHECKWARNINGS cout << "Warning: degenerate segment!\n";
+        return {A, A};
+    }
     return {A, B};
 }
 
 Segment V2S(Vector a) {
+    if (iZ(len(a))) {
+        CHECKWARNINGS cout << "Warning: degenerate segment!\n";
+        return {0, 0, 0, 0};
+    }
     return {{0, 0}, {a.x, a.y}};
 }
 
 Vector S2V(Segment a) {
+    if (iZ(len(a))) {
+        CHECKWARNINGS cout << "Warning: degenerate vector!\n";
+        return {0, 0};
+    }
     return {a.B.x - a.A.x, a.B.y - a.A.y};
 }
 
 Line S2L(Segment a) {
+    if (a.A == a.B) {
+        CHECKWARNINGS cout << "Warning: degenerate line!\n";
+        return {0, 0, 0};
+    }
     return P2L(a.A, a.B);
 }
 
 Line V2L(Vector a) {
+    if (iZ(len(a))) {
+        CHECKWARNINGS cout << "Warning: degenerate line!\n";
+        return {0, 0, 0};
+    }
     return P2L({0, 0}, V2P(a));
 }
 
@@ -1509,18 +1696,26 @@ Vector A2V(double alpha) {
 }
 
 Triangle P2T(Point A, Point B, Point C) {
+    if (isCol(A, B, C)) {
+        CHECKWARNINGS cout << "Warning: degenerate triangle!\n";
+    }
     return {A, B, C};
 }
 
 Circle P2C(Point A, Point B, Point C) {
+    if (isCol(A, B, C)) {
+        CHECKWARNINGS cout << "Warning: degenerate circle!\n";
+        return {UNDEF, 0};
+    }
     return circumscribed(P2T(A, B, C));
 }
 
 BaryCoords PaT2Bar(Point P, Triangle t) {
-    double ABC = area(t);
-    if (ABC == 0) {
-        return {-INF, -INF, -INF};
+    if (isDeg(t)) {
+        CHECKWARNINGS cout << "Warning: degenerate triangle!\n";
+        return BARYCENTER;
     }
+    double ABC = area(t);
     double PBC = area(P2T(P, t.B, t.C));
     double APC = area(P2T(t.A, P, t.C));
     double ABP = area(P2T(t.A, t.B, P));
@@ -1528,16 +1723,20 @@ BaryCoords PaT2Bar(Point P, Triangle t) {
 }
 
 Point TaBar2P(Triangle t, BaryCoords b) {
+    if (isDeg(t)) {
+        CHECKWARNINGS cout << "Warning: degenerate triangle!\n";
+        return UNDEF;
+    }
     return {
         b.u * t.A.x + b.v * t.B.x + b.w * t.C.x,
         b.u * t.A.y + b.v * t.B.y + b.w * t.C.y
     };
 }
 
-// ¡¡ÓÍÒ˚
+// –ë–ë–æ–∫—Å—ã
 
 BBox P2B(Point A) {
-    return {{A.x, A.y}, {A.x, A.y}};
+    return {A, A};
 }
 
 BBox P2B(Point A, Point B) {
@@ -1545,8 +1744,7 @@ BBox P2B(Point A, Point B) {
 }
 
 BBox V2B(Vector a) {
-    Point A = V2P(a), B = {0, 0};
-    return P2B(A, B);
+    return P2B(V2P(a), {0, 0});
 }
 
 BBox L2B(Line a) {
@@ -1559,6 +1757,7 @@ BBox L2B(Line a) {
     if (iZ(a.B)) {
         return {{a.C / a.A, -INF}, {INF, a.C / a.A}};
     }
+    CHECKWARNINGS cout << "Warning: undefined BBox!\n";
     return {UNDEF, UNDEF};
 }
 
