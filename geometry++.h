@@ -10,6 +10,10 @@
 #include <iterator>
 #define CHECKWARNINGS if (Geometry2D::SHOW_WARNINGS)
 
+const double PI = acos(-1);
+const double INF = std::numeric_limits<double>::infinity();
+const double EPS = 1e-9;
+
 namespace Geometry2D {
 
     //====================================
@@ -41,19 +45,8 @@ namespace Geometry2D {
         double R;
     };
 
-    bool iE(double a, double b);
-    const double EPS = 1e-9;
-    struct CMPPOINT {;
-        bool operator()(const Point& a, const Point& b) const {
-            if (!iE(a.x, b.x)) {
-                return a.x < b.x - EPS;
-            }
-            return a.y < b.y - EPS;
-        }
-    };
-
     struct IntersectOut {
-        std::set<Point, CMPPOINT> P;
+        std::set<Point> P;
         int num;
     };
 
@@ -68,9 +61,6 @@ namespace Geometry2D {
     //====================================
     //       КОНСТАНТЫ И ПЕРЕМЕННЫЕ
     //====================================
-
-    const double PI = acos(-1);
-    const double INF = std::numeric_limits<double>::infinity();
 
     const Point UNDEF = {INF, INF};
     const Point NAP = {-INF, -INF};
@@ -88,7 +78,15 @@ namespace Geometry2D {
 
     // ----- БАЗОВЫЕ ФУНКЦИИ -----
     bool iZ(double a);
+    bool iNZ(double a);
+
     bool iE(double a, double b);
+    bool iNE(double a, double b);
+    bool iM(double a, double b);
+    bool iL(double a, double b);
+    bool iME(double a, double b);
+    bool iLE(double a, double b);
+
     double SQ(double a);
     double r2d(double radians);
     double d2r(double degrees);
@@ -215,6 +213,74 @@ namespace Geometry2D {
     double area(Circle o);
     double perimeter(Circle o);
 
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Точка-Точка) -----
+    double dist_O(Point A, Point B);
+    double dist(Point A, Point B);
+    double dist_S(Point A, Point B);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Точка-Прямая) -----
+    double dist_O(Point A, Line a);
+    double dist(Point A, Line a);
+    double dist_S(Point A, Line a);
+    double dist_O(Line a, Point A);
+    double dist(Line a, Point A);
+    double dist_S(Line a, Point A);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Точка-Отрезок) -----
+    double dist_O(Point A, Segment a);
+    double dist(Point A, Segment a);
+    double dist_S(Point A, Segment a);
+    double dist_O(Segment a, Point A);
+    double dist(Segment a, Point A);
+    double dist_S(Segment a, Point A);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Точка-Окружность) -----
+    double dist_O(Point A, Circle o);
+    double dist(Point A, Circle o);
+    double dist_S(Point A, Circle o);
+    double dist_O(Circle o, Point A);
+    double dist(Circle o, Point A);
+    double dist_S(Circle o, Point A);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Прямая-Прямая)
+    double dist_O(Line a, Line b);
+    double dist(Line a, Line b);
+    double dist_S(Line a, Line b);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Прямая-Отрезок)
+    double dist_O(Line a, Segment b);
+    double dist(Line a, Segment b);
+    double dist_S(Line a, Segment b);
+    double dist_O(Segment b, Line a);
+    double dist(Segment b, Line a);
+    double dist_S(Segment b, Line a);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Прямая-Окружность)
+    double dist_O(Line a, Circle o);
+    double dist(Line a, Circle o);
+    double dist_S(Line a, Circle o);
+    double dist_O(Circle o, Line a);
+    double dist(Circle o, Line a);
+    double dist_S(Circle o, Line a);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Отрезок-Отрезок)
+    double dist_O(Segment a, Segment b);
+    double dist(Segment a, Segment b);
+    double dist_S(Segment a, Segment b);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Окружность-Отрезок)
+    double dist_O(Circle o, Segment a);
+    double dist(Circle o, Segment a);
+    double dist_S(Circle o, Segment a);
+    double dist_O(Segment a, Circle o);
+    double dist(Segment a, Circle o);
+    double dist_S(Segment a, Circle o);
+
+    // ----- ФУНКЦИИ РАССТОЯНИЙ (Окружность-Окружность)
+    double dist_O(Circle a, Circle b);
+    double dist(Circle a, Circle b);
+    double dist_S(Circle a, Circle b);
+
     // ----- ОПЕРАТОРЫ СРАВНЕНИЯ -----
     bool operator==(Vector a, Vector b);
     bool operator!=(Vector a, Vector b);
@@ -259,74 +325,6 @@ namespace Geometry2D {
     double operator^(Line a, Segment AB);
     double operator^(Segment AB, Line a);
     double operator^(Segment a, Segment b);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Точка-Точка) -----
-    double operator>>(Point A, Point B);
-    double operator>(Point A, Point B);
-    double operator<(Point A, Point B);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Точка-Прямая) -----
-    double operator>>(Point A, Line a);
-    double operator>(Point A, Line a);
-    double operator<(Point A, Line a);
-    double operator>>(Line a, Point A);
-    double operator>(Line a, Point A);
-    double operator<(Line a, Point A);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Точка-Отрезок) -----
-    double operator>>(Point A, Segment a);
-    double operator>(Point A, Segment a);
-    double operator<(Point A, Segment a);
-    double operator>>(Segment a, Point A);
-    double operator>(Segment a, Point A);
-    double operator<(Segment a, Point A);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Точка-Окружность) -----
-    double operator>>(Point A, Circle o);
-    double operator>(Point A, Circle o);
-    double operator<(Point A, Circle o);
-    double operator>>(Circle o, Point A);
-    double operator>(Circle o, Point A);
-    double operator<(Circle o, Point A);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Прямая-Прямая)
-    double operator>>(Line a, Line b);
-    double operator>(Line a, Line b);
-    double operator<(Line a, Line b);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Прямая-Отрезок)
-    double operator>>(Line a, Segment b);
-    double operator>(Line a, Segment b);
-    double operator<(Line a, Segment b);
-    double operator>>(Segment b, Line a);
-    double operator>(Segment b, Line a);
-    double operator<(Segment b, Line a);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Прямая-Окружность)
-    double operator>>(Line a, Circle o);
-    double operator>(Line a, Circle o);
-    double operator<(Line a, Circle o);
-    double operator>>(Circle o, Line a);
-    double operator>(Circle o, Line a);
-    double operator<(Circle o, Line a);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Отрезок-Отрезок)
-    double operator>>(Segment a, Segment b);
-    double operator>(Segment a, Segment b);
-    double operator<(Segment a, Segment b);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Окружность-Отрезок)
-    double operator>>(Circle o, Segment a);
-    double operator>(Circle o, Segment a);
-    double operator<(Circle o, Segment a);
-    double operator>>(Segment a, Circle o);
-    double operator>(Segment a, Circle o);
-    double operator<(Segment a, Circle o);
-
-    // ----- ОПЕРАТОРЫ РАССТОЯНИЙ (Окружность-Окружность)
-    double operator>>(Circle a, Circle b);
-    double operator>(Circle a, Circle b);
-    double operator<(Circle a, Circle b);
 
     // ----- ОПЕРАТОРЫ ПРИНАДЛЕЖНОСТИ -----
     bool operator|(Point A, Line a);
@@ -421,6 +419,30 @@ namespace Geometry2D {
 
     double d2r(double degrees) {
         return (degrees * PI) / 180;
+    }
+
+    bool iNZ(double a) {
+        return !iZ(a);
+    }
+
+    bool iNE(double a, double b) {
+        return !iE(a, b);
+    }
+
+    bool iM(double a, double b) {
+        return (a > b + EPS);
+    }
+
+    bool iL(double a, double b) {
+        return (a < b + EPS);
+    }
+
+    bool iME(double a, double b) {
+        return !iL(a, b);
+    }
+
+    bool iLE(double a, double b) {
+        return !iM(a, b);
     }
 
     //====================================
@@ -820,14 +842,14 @@ namespace Geometry2D {
         if (isDeg(t)) {
             return {NAP, 0};
         }
-        return {circumcenter(t), circumcenter(t) > t.A};
+        return {circumcenter(t), dist(circumcenter(t), t.A)};
     }
 
     Circle inscribed(Triangle t) {
         if (isDeg(t)) {
             return {NAP, 0};
         }
-        return {incenter(t), incenter(t) > P2L(t.A, t.B)};
+        return {incenter(t), dist(incenter(t), P2L(t.A, t.B))};
     }
 
     bool isEquil(Triangle t) {
@@ -1057,6 +1079,283 @@ namespace Geometry2D {
     }
 
     //====================================
+    //             РАССТОЯНИЯ
+    //====================================
+
+    // Точка - точка
+
+    double dist_O(Point A, Point B) {
+        return len(P2V(A, B));
+    }
+
+    double dist(Point A, Point B) {
+        return len(P2V(A, B));
+    }
+
+    double dist_S(Point A, Point B) {
+        return lenS(P2V(A, B));
+    }
+
+    // Точка - прямая
+
+    double dist_O(Point A, Line a) {
+        if (isDeg(a)) {
+            return 0;
+        }
+        return (a.A * A.x + a.B * A.y + a.C) / sqrt(SQ(a.A) + SQ(a.B));
+    }
+
+    double dist(Point A, Line a) {
+        return abs(dist_O(A, a));
+    }
+
+    double dist_S(Point A, Line a) {
+        return SQ(dist_O(A, a));
+    }
+
+    // Прямая - точка
+
+    double dist_O(Line a, Point A) {
+        return dist_O(A, a);
+    }
+
+    double dist(Line a, Point A) {
+        return abs(dist_O(A, a));
+    }
+
+    double dist_S(Line a, Point A) {
+        return SQ(dist_O(A, a));
+    }
+
+    // Точка - отрезок
+
+    double dist_O(Point A, Segment a) {
+        if (A | a) {
+            return 0;
+        }
+        if (isDeg(a)) {
+            return len(P2V(a.A, A));
+        }
+        if (P2V(a.A, A) * P2V(a.A, a.B) <= 0) {
+            return dist_O(A, a.A);
+        }
+        if (P2V(a.B, A) * P2V(a.B, a.A) <= 0) {
+            return dist_O(A, a.B);
+        }
+        return dist_O(A, S2L(a));
+    }
+
+    double dist(Point A, Segment a) {
+        return abs(dist_O(A, a));
+    }
+
+    double dist_S(Point A, Segment a) {
+        return SQ(dist_O(A, a));
+    }
+
+    // Отрезок - точка
+
+    double dist_O(Segment a, Point A) {
+        return dist_O(A, a);
+    }
+
+    double dist(Segment a, Point A) {
+        return abs(dist_O(A, a));
+    }
+
+    double dist_S(Segment a, Point A) {
+        return SQ(dist_O(A, a));
+    }
+
+    // Точка - окружность
+
+    double dist_O(Point A, Circle o) {
+        return len(P2V(o.O, A)) - o.R;
+    }
+
+    double dist(Point A, Circle o) {
+        return abs(dist_O(A, o));
+    }
+
+    double dist_S(Point A, Circle o) {
+        return SQ(dist_O(A, o));
+    }
+
+    // Окружность - точка
+
+    double dist_O(Circle o, Point A) {
+        return dist_O(A, o);
+    }
+
+    double dist(Circle o, Point A) {
+        return abs(dist_O(A, o));
+    }
+
+    double dist_S(Circle o, Point A) {
+        return SQ(dist_O(A, o));
+    }
+
+    // Прямая - прямая
+
+    double dist_O(Line a, Line b) {
+        if (isDeg(a) || isDeg(b)) {
+            return 0;
+        }
+        if (a || b) {
+            return 0;
+        }
+        return (dist_O(pointOn(a), b));
+    }
+
+    double dist(Line a, Line b) {
+        return abs(dist_O(a, b));
+    }
+
+    double dist_S(Line a, Line b) {
+        return SQ(dist_O(a, b));
+    }
+
+    // Прямая - отрезок
+
+    double dist_O(Line a, Segment b) {
+        if (a || b) {
+            return 0;
+        }
+        return std::min(dist_O(b.A, a), dist_O(b.B, a));
+    }
+
+    double dist(Line a, Segment b) {
+        return abs(dist_O(a, b));
+    }
+
+    double dist_S(Line a, Segment b) {
+        return SQ(dist_O(a, b));
+    }
+
+    // Отрезок - прямая
+
+    double dist_O(Segment b, Line a) {
+        return (dist_O(a, b));
+    }
+
+    double dist(Segment b, Line a) {
+        return abs(dist_O(a, b));
+    }
+
+    double dist_S(Segment b, Line a) {
+        return SQ(dist_O(a, b));
+    }
+
+    // Прямая - окружность
+
+    double dist_O(Line a, Circle o) {
+        if (a || o) {
+            return 0;
+        }
+        return dist_O(a, o.O) - o.R;
+    }
+
+    double dist(Line a, Circle o) {
+        return abs(dist_O(a, o));
+    }
+
+    double dist_S(Line a, Circle o) {
+        return SQ(dist_O(a, o));
+    }
+
+    // Окружность - прямая
+
+    double dist_O(Circle o, Line a) {
+        if (a || o) {
+            return 0;
+        }
+        return dist_O(a, o.O) - o.R;
+    }
+
+    double dist(Circle o, Line a) {
+        return abs(dist_O(a, o));
+    }
+
+    double dist_S(Circle o, Line a) {
+        return SQ(dist_O(a, o));
+    }
+
+    // Отрезок - отрезок
+
+    double dist_O(Segment a, Segment b) {
+        return  std::min({dist_O(a.A, b), dist_O(a.B, b), dist_O(b.A, a), dist_O(b.B, a)});
+    }
+
+    double dist(Segment a, Segment b) {
+        return abs(dist_O(a, b));
+    }
+
+    double dist_S(Segment a, Segment b) {
+        return SQ(dist_O(a, b));
+    }
+
+    // Окружность - отрезок
+
+    double dist_O(Circle o, Segment a) {
+        if (dist_O(a.A, o) < 0) {
+            double distA = dist_O(a.A, o);
+            double distB = dist_O(a.B, o);
+            return std::min(distA, distB);
+        }
+        return dist_O(o.O, a) - o.R;
+    }
+
+    double dist(Circle o, Segment a) {
+        return abs(dist_O(a, o));
+    }
+
+    double dist_S(Circle o, Segment a) {
+        return SQ(dist_O(a, o));
+    }
+
+    // Отрезок - окружность
+
+    double dist_O(Segment a, Circle o) {
+        if (dist_O(a.A, o) < 0) {
+            double distA = dist_O(a.A, o);
+            double distB = dist_O(a.B, o);
+            return std::min(distA, distB);
+        }
+        return dist_O(o.O, a) - o.R;
+    }
+
+    double dist(Segment a, Circle o) {
+        return abs(dist_O(a, o));
+    }
+
+    double dist_S(Segment a, Circle o) {
+        return SQ(dist_O(a, o));
+    }
+
+    // Окружность - окружность
+
+    double dist_O(Circle a, Circle b) {
+        if (a || b) {
+            return 0;
+        }
+        double maxR = std::max(a.R, b.R);
+        double minR = std::min(a.R, b.R);
+        if (dist_O(a.O, b.O) < maxR - minR) {
+            return maxR - minR - dist_O(a.O, b.O);
+        } else {
+            return dist_O(a.O, b.O) - a.R - b.R;
+        }
+    }
+
+    double dist(Circle a, Circle b) {
+        return abs(dist_O(a, b));
+    }
+
+    double dist_S(Circle a, Circle b) {
+        return SQ(dist_O(a, b));
+    }
+
+    //====================================
     //         СОВПАДЕНИЕ / НЕТ
     //====================================
 
@@ -1135,6 +1434,17 @@ namespace Geometry2D {
     }
     bool operator!=(IntersectOut a, IntersectOut b) {
         return !(a == b);
+    }
+
+    //====================================
+    //             СРАВНЕНИЕ
+    //====================================
+
+    bool operator<(Point a, Point b) {
+        if (iNE(a.x, b.x)) {
+            return iL(a.x, b.x);
+        }
+        return iL(a.y, b.y);
     }
 
     //====================================
@@ -1234,15 +1544,15 @@ namespace Geometry2D {
     }
 
     double lenAB(Triangle t) {
-        return t.A > t.B;
+        return dist(t.A, t.B);
     }
 
     double lenBC(Triangle t) {
-        return t.B > t.C;
+        return dist(t.B, t.C);
     }
 
     double lenAC(Triangle t) {
-        return t.A > t.C;
+        return dist(t.A, t.C);
     }
 
     double perimeter(Triangle t) {
@@ -1306,283 +1616,6 @@ namespace Geometry2D {
 
     double angleC(Triangle t) {
         return angleAOB(t.A, t.C, t.B);
-    }
-
-    //====================================
-    //             РАССТОЯНИЯ             >> алгебраическое, > геометрическое, < квадрат
-    //====================================
-
-    // Точка - точка
-
-    double operator>>(Point A, Point B) {
-        return len(P2V(A, B));
-    }
-
-    double operator>(Point A, Point B) {
-        return len(P2V(A, B));
-    }
-
-    double operator<(Point A, Point B) {
-        return lenS(P2V(A, B));
-    }
-
-    // Точка - прямая
-
-    double operator>>(Point A, Line a) {
-        if (isDeg(a)) {
-            return 0;
-        }
-        return (a.A * A.x + a.B * A.y + a.C) / sqrt(SQ(a.A) + SQ(a.B));
-    }
-
-    double operator>(Point A, Line a) {
-        return abs(A >> a);
-    }
-
-    double operator<(Point A, Line a) {
-        return SQ(A >> a);
-    }
-
-    // Прямая - точка
-
-    double operator>>(Line a, Point A) {
-        return (A >> a);
-    }
-
-    double operator>(Line a, Point A) {
-        return abs(A >> a);
-    }
-
-    double operator<(Line a, Point A) {
-        return SQ(A >> a);
-    }
-
-    // Точка - отрезок
-
-    double operator>>(Point A, Segment a) {
-        if (A | a) {
-            return 0;
-        }
-        if (isDeg(a)) {
-            return len(P2V(a.A, A));
-        }
-        if (P2V(a.A, A) * P2V(a.A, a.B) <= 0) {
-            return (A > a.A);
-        }
-        if (P2V(a.B, A) * P2V(a.B, a.A) <= 0) {
-            return (A > a.B);
-        }
-        return (A >> S2L(a));
-    }
-
-    double operator>(Point A, Segment a) {
-        return abs(A >> a);
-    }
-
-    double operator<(Point A, Segment a) {
-        return SQ(A >> a);
-    }
-
-    // Отрезок - точка
-
-    double operator>>(Segment a, Point A) {
-        return (A >> a);
-    }
-
-    double operator>(Segment a, Point A) {
-        return abs(A >> a);
-    }
-
-    double operator<(Segment a, Point A) {
-        return SQ(A >> a);
-    }
-
-    // Точка - окружность
-
-    double operator>>(Point A, Circle o) {
-        return len(P2V(o.O, A)) - o.R;
-    }
-
-    double operator>(Point A, Circle o) {
-        return abs(A >> o);
-    }
-
-    double operator<(Point A, Circle o) {
-        return SQ(A >> o);
-    }
-
-    // Окружность - точка
-
-    double operator>>(Circle o, Point A) {
-        return (A >> o);
-    }
-
-    double operator>(Circle o, Point A) {
-        return abs(A >> o);
-    }
-
-    double operator<(Circle o, Point A) {
-        return SQ(A >> o);
-    }
-
-    // Прямая - прямая
-
-    double operator>>(Line a, Line b) {
-        if (isDeg(a) || isDeg(b)) {
-            return 0;
-        }
-        if (a || b) {
-            return 0;
-        }
-        return (pointOn(a) >> b);
-    }
-
-    double operator>(Line a, Line b) {
-        return abs(a >> b);
-    }
-
-    double operator<(Line a, Line b) {
-        return SQ(a >> b);
-    }
-
-    // Прямая - отрезок
-
-    double operator>>(Line a, Segment b) {
-        if (a || b) {
-            return 0;
-        }
-        return std::min(b.A >> a, b.B >> a);
-    }
-
-    double operator>(Line a, Segment b) {
-        return abs(a >> b);
-    }
-
-    double operator<(Line a, Segment b) {
-        return SQ(a >> b);
-    }
-
-    // Отрезок - прямая
-
-    double operator>>(Segment b, Line a) {
-        return (a >> b);
-    }
-
-    double operator>(Segment b, Line a) {
-        return abs(a >> b);
-    }
-
-    double operator<(Segment b, Line a) {
-        return SQ(a >> b);
-    }
-
-    // Прямая - окружность
-
-    double operator>>(Line a, Circle o) {
-        if (a || o) {
-            return 0;
-        }
-        return (a >> o.O) - o.R;
-    }
-
-    double operator>(Line a, Circle o) {
-        return abs(a >> o);
-    }
-
-    double operator<(Line a, Circle o) {
-        return SQ(a >> o);
-    }
-
-    // Окружность - прямая
-
-    double operator>>(Circle o, Line a) {
-        if (a || o) {
-            return 0;
-        }
-        return (a >> o.O) - o.R;
-    }
-
-    double operator>(Circle o, Line a) {
-        return abs(a >> o);
-    }
-
-    double operator<(Circle o, Line a) {
-        return SQ(a >> o);
-    }
-
-    // Отрезок - отрезок
-
-    double operator>>(Segment a, Segment b) {
-        return  std::min({a.A > b, a.B > b, b.A > a, b.B > a});
-    }
-
-    double operator>(Segment a, Segment b) {
-        return abs(a >> b);
-    }
-
-    double operator<(Segment a, Segment b) {
-        return SQ(a >> b);
-    }
-
-    // Окружность - отрезок
-
-    double operator>>(Circle o, Segment a) {
-        if ((a.A >> o) < 0) {
-            double distA = a.A >> o;
-            double distB = a.B >> o;
-            return std::min(distA, distB);
-        }
-        return (o.O >> a) - o.R;
-    }
-
-    double operator>(Circle o, Segment a) {
-        return abs(a >> o);
-    }
-
-    double operator<(Circle o, Segment a) {
-        return SQ(a >> o);
-    }
-
-    // Отрезок - окружность
-
-    double operator>>(Segment a, Circle o) {
-        if ((a.A >> o) < 0) {
-            double distA = a.A >> o;
-            double distB = a.B >> o;
-            return std::min(distA, distB);
-        }
-        return (o.O >> a) - o.R;
-    }
-
-    double operator>(Segment a, Circle o) {
-        return abs(a >> o);
-    }
-
-    double operator<(Segment a, Circle o) {
-        return SQ(a >> o);
-    }
-
-    // Окружность - окружность
-
-    double operator>>(Circle a, Circle b) {
-        if (a || b) {
-            return 0;
-        }
-        double maxR = std::max(a.R, b.R);
-        double minR = std::min(a.R, b.R);
-        if ((a.O >> b.O) < maxR - minR) {
-            return maxR - minR - (a.O >> b.O);
-        } else {
-            return (a.O >> b.O) - a.R - b.R;
-        }
-    }
-
-    double operator>(Circle a, Circle b) {
-        return abs(a >> b);
-    }
-
-    double operator<(Circle a, Circle b) {
-        return SQ(a >> b);
     }
 
     //====================================
@@ -1707,7 +1740,7 @@ namespace Geometry2D {
         if (iZ(a.A) && iZ(a.B)) {
             return false;
         }
-        return (o.O > a) <= o.R + EPS;
+        return dist_O(o.O, a) <= o.R + EPS;
     }
 
     bool operator||(Circle o, Line a) {
@@ -1717,13 +1750,13 @@ namespace Geometry2D {
     // Отрезок - окружность
 
     bool operator||(Segment a, Circle o) {
-        double dA = o.O > a.A;
-        double dB = o.O > a.B;
+        double dA = dist_O(o.O, a.A);
+        double dB = dist_O(o.O, a.B);
         if ((dA <= o.R + EPS) != (dB <= o.R + EPS)) {
             return true;
         }
         if (dA > o.R + EPS && dB > o.R + EPS) {
-            return (o.O > a) <= o.R + EPS;
+            return dist_O(o.O, a) <= o.R + EPS;
         }
         if (iE(dA, o.R) || iE(dB, o.R)) {
             return true;
@@ -1877,7 +1910,7 @@ namespace Geometry2D {
         if (iZ(a.A) && iZ(a.B)) {
             return ZERP;
         }
-        double d = o.O > a;
+        double d = dist_O(o.O, a);
         double ad = abs(d);
         if (!(a || o)) {
             return ZERP;
@@ -2259,5 +2292,40 @@ namespace Geometry2D {
     }
 
 }
+
+//namespace Geometry3D {
+//    //====================================
+//    //             СТРУКТУРЫ
+//    //====================================
+//
+//    struct Point {
+//        double x, y, z;
+//    };
+//
+//    struct Vector {
+//        double x, y, z;
+//    };
+//
+//    struct Line {
+//        double A, B, C, D;
+//    };
+//
+//    struct Segment {
+//        Point A, B;
+//    };
+//
+//    struct BBox {
+//        Point mn, mx;
+//    };
+//
+//    struct Sphere {
+//        Point O;
+//        double R;
+//    };
+//
+//    struct Plane {
+//        double A, B, C, D;
+//    };
+//}
 
 #endif // GEOMETRYPLUSPLUS_H_INCLUDED
