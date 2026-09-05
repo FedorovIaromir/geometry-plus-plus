@@ -10,9 +10,61 @@
 #include <iterator>
 #define CHECKWARNINGS if (Geometry2D::SHOW_WARNINGS)
 
+//====================================
+//       КОНСТАНТЫ И ПЕРЕМЕННЫЕ
+//====================================
+
 const double PI = acos(-1);
 const double INF = std::numeric_limits<double>::infinity();
 const double EPS = 1e-9;
+
+//====================================
+//       МАТЕМАТИЧЕСКИЕ ФУНКЦИИ
+//====================================
+
+bool iZ(double a) {
+    return (abs(a) <= EPS);
+}
+
+bool iE(double a, double b) {
+    return abs(a - b) <= EPS;
+}
+
+double SQ(double a) {
+    return a * a;
+}
+
+double r2d(double radians) {
+    return (radians * 180) / PI;
+}
+
+double d2r(double degrees) {
+    return (degrees * PI) / 180;
+}
+
+bool iNZ(double a) {
+    return !iZ(a);
+}
+
+bool iNE(double a, double b) {
+    return !iE(a, b);
+}
+
+bool iM(double a, double b) {
+    return (a > b + EPS);
+}
+
+bool iL(double a, double b) {
+    return (a < b + EPS);
+}
+
+bool iME(double a, double b) {
+    return !iL(a, b);
+}
+
+bool iLE(double a, double b) {
+    return !iM(a, b);
+}
 
 namespace Geometry2D {
 
@@ -75,21 +127,6 @@ namespace Geometry2D {
     //====================================
     //              ПРОТОТИПЫ
     //====================================
-
-    // ----- БАЗОВЫЕ ФУНКЦИИ -----
-    bool iZ(double a);
-    bool iNZ(double a);
-
-    bool iE(double a, double b);
-    bool iNE(double a, double b);
-    bool iM(double a, double b);
-    bool iL(double a, double b);
-    bool iME(double a, double b);
-    bool iLE(double a, double b);
-
-    double SQ(double a);
-    double r2d(double radians);
-    double d2r(double degrees);
 
     // ----- ДЛИНЫ -----
     double lenS(Vector a);
@@ -396,54 +433,6 @@ namespace Geometry2D {
     BBox L2B(Line a);
     BBox S2B(Segment a);
     BBox C2B(Circle o);
-
-    //====================================
-    //       МАТЕМАТИЧЕСКИЕ ФУНКЦИИ
-    //====================================
-
-    bool iZ(double a) {
-        return (abs(a) <= EPS);
-    }
-
-    bool iE(double a, double b) {
-        return abs(a - b) <= EPS;
-    }
-
-    double SQ(double a) {
-        return a * a;
-    }
-
-    double r2d(double radians) {
-        return (radians * 180) / PI;
-    }
-
-    double d2r(double degrees) {
-        return (degrees * PI) / 180;
-    }
-
-    bool iNZ(double a) {
-        return !iZ(a);
-    }
-
-    bool iNE(double a, double b) {
-        return !iE(a, b);
-    }
-
-    bool iM(double a, double b) {
-        return (a > b + EPS);
-    }
-
-    bool iL(double a, double b) {
-        return (a < b + EPS);
-    }
-
-    bool iME(double a, double b) {
-        return !iL(a, b);
-    }
-
-    bool iLE(double a, double b) {
-        return !iM(a, b);
-    }
 
     //====================================
     //               ВВОД
